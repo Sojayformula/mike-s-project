@@ -1,0 +1,50 @@
+<div class="mx-2 text-[#353535]">
+
+                <!-- Role Management and Filter section -->
+      <div class="flex justify-between lg:mx-10 py-3 ">
+      <div class="text-[16px] font-bold">
+        Role Management
+      </div>
+        <button class="bg-[#4393FF] w-[116px] h-[33px] rounded-[6px] text-white text-[13px]">
+          + Add New
+        </button>
+      </div>
+      
+                  <!-- Table section -->
+      <div class="mb-10">
+      <div class="overflow-x-auto">
+      <table class="min-w-full able-auto overflow-x-auto">
+      <thead class="h-[42px] bg-gray-100 text-left overflow-x-auto">
+        <tr>
+          <th class="px- lg:px-10">Institution Name</th>
+          <th class="px-2 lg:px-5">ID</th>
+          <th class="px-2 lg:px-5">Role</th>
+          <th class="px-2 lg:px-5">Access</th>
+          <th class="px-2 lg:px-5">Date</th>
+          <th class="px-2 lg:px-5">Status</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white overflow-x-auto">
+        <tr class="border-b border-gray-200 " *ngFor="let item of mappedData">
+          <td class="px- lg:px-10">{{ item.Institutionname }}</td>
+          <td class="px-2 lg:px-5">{{ item.ID }}</td>
+          <td class="px-2 lg:px-5">{{ item.Role }}</td>
+          <td class="px-2 lg:px-5">{{ item.Access }}</td>
+          <td class="px-2 lg:px-5">{{ item.Date }}</td>
+          <td class="px-2 lg:px-5">
+
+            <div
+            class="text-[12px] font-semibold rounded-[2px] inline-block text-center"
+            [ngClass]="{
+              'bg-[#1CCAB824] text-[#109688] w-[62px] h-[22px]': item.Status === 'Active',
+              'bg-[#FF874324] text-[#F37833] w-[75px] h-[22px]': item.Status === 'Suspended',
+              'bg-gray-500 w-[75px] h-[22px]': item.Status !== 'Active' && item.Status !== 'Suspended'
+            }"
+          >{{ item.Status }}</div></td> 
+        </tr>
+      </tbody>
+      </table>
+      </div>
+    </div>
+   </div>
+

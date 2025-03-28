@@ -1,0 +1,24 @@
+
+<div class="text-[11px] text-[#828282] mx-2 lg:mx-[110px] mt-4">
+  DASHBOARD / <span class="text-[11px] text-black font-bold">SETTINGS</span>
+  <p class="text-[25px] text-black font-bold mt-4">
+    Settings
+  </p>
+</div>
+
+
+
+<div class="mt-3 lg:mx-20 bg-white lg:w-[1360px] lg:h-[491px] rounded-[7px] border-[1px] overflow-x-hidden">
+  <div class="mx-2 lg:mx-10 mt-8">
+ <nav class="flex gap-2 lg:gap-5">
+   <a routerLink="profile" routerLinkActive="border-b-4 border-blue-500 text-[#4393FF]">Profile</a> 
+   <a routerLink="password" routerLinkActive="border-b-4 border-blue-500 text-[#4393FF]">Password</a> 
+   <a routerLink="rolemanagement" routerLinkActive="border-b-4 border-blue-500 text-[#4393FF]">Role Management</a> 
+   <a routerLink="publicKey" routerLinkActive="border-b-4 border-blue-500 text-[#4393FF]">Public Key</a>
+ </nav>
+</div>
+
+<div class="overflow-x-hiddenm border-t">
+ <router-outlet></router-outlet>
+</div>
+

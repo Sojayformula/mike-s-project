@@ -1,0 +1,224 @@
+<div class="mt-10 lg:mx-20 overflow-x-hidden">
+  <div class="">
+      <div>
+        <p class="text-[11px] text-[#828282]">DASHBOARD</p>
+        <p class="mt-6 text-[25px] text-[#353535]">Welcome Back, Olabisi</p>
+        <p class="text-[11px] text-[#828282]">Here's summary of your portion</p>
+      </div>
+    </div>
+
+    
+                          <!-- Cards Section-->
+  <div class="flex gap-[10px] flex-col lg:flex-row mt-10 mx-3 lg:mx-0">
+    <div class="flex flex-col  ">
+      <div class="flex gap-[10px] flex-col lg:flex-row">
+
+      <div class="bg-white w-[335px] h-[164px] rounded-[7px] px-4 space-y-3 border-4 border-[#EBEBEB] text-[#353535]">
+        <div class="flex justify-between mt-5">
+         <div class="text-[14px] mx-2 tex-[#353535]">Total Transactions <span>icon</span></div> 
+         <select class="text-[14px] tex-[#353535]">
+          <option>Today</option>
+         </select>
+        </div>
+         <p class="font-bold text-[28px] mx-2 tex-[#353535]">$988,859,578.11</p>
+        <p class="text-[13px] mx-2 text-[#828282]"><span>icon</span>Volume: <span class="font-bold text-[#353535]">789,456,456</span>
+        </p>
+      </div>
+      
+
+
+      <div class="bg-white w-[335px] h-[164px] rounded-[7px] px-4 space-y-3  border-4 border-[#EBEBEB] text-[#353535]">
+        <div class="flex justify-between mt-5">
+          <div class="text-[14px]">Verified Transactions <span>icon</span></div> 
+          <select class="text-[14px]">
+           <option>Today</option>
+          </select>
+         </div>
+          <p class="font-bold text-[28px]">$980,000,000</p>
+         <p class="text-[13px] text-[#828282]"><span>icon</span>Volume: <span class="font-bold text-[#353535]">789,456,456</span>
+         </p>
+       </div>
+      
+  
+      <div class="bg-white w-[335px] h-[164px] rounded-[7px] px-4 space-y-3  border-4 border-[#EBEBEB] text-[#353535]">
+        <div class="flex justify-between mt-5">
+          <div class="text-[14px]">Unverified Transactions <span>icon</span></div> 
+          <select class="text-[14px]">
+           <option>Today</option>
+          </select>
+         </div>
+          <p class="font-bold text-[28px]">$8,859,578.11</p>
+         <p class="text-[13px] text-[#828282]"><span>icon</span>Volume: <span class="font-bold text-[#353535]">789,456,456</span>
+         </p>
+       </div>
+      </div>
+  
+                              <!-- Graph Section -->
+        <div class="mt-2 bg-white w-[335px] lg:w-[1025px] h-[299px] rounded-[7px] px-4 text-[#353535]">
+          <div class="flex justify-between mt-5">
+          <div class="mx-2">
+          <p class="font-bold text-[18px] ">Transaction Activity</p>
+          <p class="text-[13px]">Track total transaction volume across</p>
+        </div>
+
+        <div class="flex gap-5">
+          <div class="flex gap-5 mr-8">
+          <div class="text-[12px] flex gap-2"><span class="w-[22px] h-[9px] bg-[#4393FF] mt-1"></span> Verified</div>
+          <div  class="text-[12px] flex gap-2"><span class="w-[22px] h-[9px] bg-[#FF8743] mt-1"></span> Unverified</div>
+        </div>
+
+                             <!-- Select -->
+          <div class="mr-10 mt-[-4px] relative inline-block text-[#353535]">
+          <select [(ngModel)]="filterStatus" class="text-[12px] bg-[#F4F4F4] w-[88px] h-[27px] rounded-[6px] px-2 appearance-none">
+            <option value="">Filter by</option>
+            <option value="">All Status</option>
+            <option value="Verified">Verified</option>
+        <option value="Unverified">Unverified</option>
+          </select>
+          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white mt-[-20px]">
+            <svg class="fill-current h-4 w-4 bg-[#979797] p-1 rounded-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+              <path d="M7 10l5 5 5-5H7z"/>
+            </svg>
+          </div>
+
+        </div>
+        </div>
+      </div>
+        
+                                         <!-- Graph -->
+        <div class="bg-[url('./assets/Group21.png')] bg-cover bg-center h-[140px] w-[809px] mt-10 ml-20 text-[#353535]">
+          <img src="/Group18.png"  class="text-[13px] h[155px] w-[31px] relative right-16 top-[-7px]" />
+          <img src="/Vector.png"  class="relative right- top-[-10rem]" />
+          <img src="/Vectors.png" class="relative right- top-[-13rem]"  />
+          <img src="/Group25.png" class="relative right- top-[-20rem] w-[200px] h-[135px] left-[41rem]"  />
+        </div>
+       </div>
+    </div>
+    
+
+        <div class="bg-white w-[335px] Lg:w-[305px] h-[467px] rounded-[7px] px-4 text-[#353535]">
+          <div class="mt-5 mx-4">
+           <p class="w-[149px h-[21px] text-[18px] font-bold">No. of Institutions</p>
+
+          <div class="mt-5 bg-[#EDEDED] w-[264px] h-[103px] rounded-[10px] flex flex-col justify-center">
+            <div class="mx-4">
+            <p class="text-[14px]">Total Institutions...................................<span class="font-bold">27</span></p>
+            <p class="text-[14px]"> Active Institutions................................<span class="font-bold">19</span></p>
+            <p class="text-[14px]">Iactive Institutions................................<span class="font-bold">8</span></p>
+          </div>
+          </div>
+          </div>
+
+          <div class="flex justify-center">
+            <img src="/Group41.png" class="w-[193px] h-[193px] mt-10"/>
+          </div>
+
+          <div class="flex gap-5 justify-center mt-2">
+            <div class="flex gap-2 items-center"><span class="bg-[#E54D50] w-[22px] h-[9px]"></span>Iactive</div>
+            <div class="flex gap-2 items-center"><span class="bg-[#4393FF] w-[22px] h-[9px]"></span>Active</div>
+          </div>
+
+        </div>
+    </div>
+  
+                                     <!-- Table Section-->
+    <div class="mt-2 text-[#353535]">
+    <div class="flex justify-between bg-white">
+      <div class="lg:mx-5">
+        <p class="text-[18px] font-bold text-[#353535]">Recent Transactions</p>
+        <small class="text-[13px] relative top-[-7px] text-[#828282]">View all recent transactions</small>
+      </div>
+  
+      <div class="flex flex-col md:flex-row items-center gap-2 mx-5">
+        <input 
+          type="text"
+          [(ngModel)]="searchTerm " 
+          placeholder="Search by name, ID or number" 
+         class="bg-[#EBEBEB] text-[#828282] border rounded-lg h-[33px] w-[271px] px-3 text-[13px] "
+        />
+      
+        <button class="bg-[#4393FF30] h-[33px] w-[113px] text-[13px] rounded-lg border-2 border-[#4393FF] hover:bg-[#7fb1e3]" (click)="exportTableToCSV()">
+          Export Data<span class="export__icon">📄</span>
+        </button>
+  
+        <select [(ngModel)]="filterStatus" class="bg-[#4393FF30] h-[33px] w-[79px] text-[13px] rounded-lg border-2 border-[#4393FF] hover:bg-[#7fb1e3]">
+          <option value="">Filter<span class="filter__icon">🔍</span></option>
+          <option value="">All Status</option>
+          <option value="Verified">Verified</option>
+          <option value="Unverified">Unverified</option>
+        </select>
+      </div>
+    </div>
+  
+  
+                          
+    <div class="mb-10">
+      <div class="overflow-x-auto">
+        <table class="min-w-full table-auto text-[#353535]">
+          <thead class="h-[42px] bg-gray-100 text-left">
+            <tr>
+              <th class="px-2 lg:px-5">Name</th>
+              <th class="px-2 lg:px-">Amount</th>
+              <th class="px-2 lg:px-0">DL Code</th>
+              <th class="px-2 lg:px-0">Provider ID</th>
+              <th class="px-2 lg:px-0">Source</th>
+              <th class="px-2 lg:px-0">Source Acc.</th>
+              <th class="px-2 lg:px-0">Recipient</th>
+              <th class="px-2 lg:px-0">Destination</th>
+              <th class="px-2 lg:px-0">Dest Acc.</th>
+              <th class="px-2 lg:px-0">Date & Time</th>
+              <th class="px-2 lg:px-0">Status</th>
+            </tr>
+          </thead>
+          <tbody class="text-cente bg-white">
+            <tr class="border-b border-gray-200" *ngFor="let item of mappedData, let data of filteredData(), let iterm of filtedData() ">
+              <td class="px-2 lg:px-5">{{ item.Sender }}</td>
+              <td class="px-2 lg:px-0">{{ item.Amount }}</td>
+              <td >{{ item.DLCode }}</td>
+              <td class="px-2 lg:px-0">{{ item.ProviderID }}</td>
+              <td class="px-2 lg:px-0">{{ item.Source }}</td>
+              <td class="px-2 lg:px-0">{{ item.Sourceacc }}</td>
+              <td class="px-2 lg:px-0">{{ item.Recipient }}</td>
+              <td class="ppx-2 lg:px-0">{{ item.Destination }}</td>
+              <td class="px-2 lg:px-0">{{ item.Destacc }}</td>
+              <td class="px-2 lg:px-0">{{ item.DateTime }}</td>
+              <td class="px-2 lg:px-0">
+                <div
+                  class="text-[12px] font-semibold rounded-[2px] inline-block text-center"
+                  [ngClass]="{
+                    'bg-[#1CCAB824] text-[#109688] w-[62px] h-[22px]': item.status === 'Verified',
+                    'bg-[#FF874324] text-[#F37833] w-[75px] h-[22px]': item.status === 'Unverified',
+                    'bg-gray-500 w-[75px] h-[22px]': item.status !== 'Verified' && item.status !== 'Unverified'
+                  }"
+                >
+                  {{ item.status }}
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </div>
+  </div>
+  </div>
+
+
+
+
+  <!-- // "assets": [
+  //   {
+  //     "glob": "**/*",
+  //     "input": "public"
+  //   }
+  // ], 
+  
+  
+  "assets": [
+                {
+                  "glob": "**/*",
+                  "input": "public",
+                  "output": "/assets"
+                }
+              ],
+  -->

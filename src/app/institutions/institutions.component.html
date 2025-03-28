@@ -1,0 +1,181 @@
+
+<div class="mt-10 lg:mx-20 overflow-x-hidden text-[#353535]">
+
+  <div class="text-[11px] text-[#828282]">
+     DASHBOARD/
+    <span class="text-[11px] text-black font-bold">
+        INSTITUTIONS
+    </span>
+    </div>
+                  <!-- Institution and Add button section -->
+    <div class="flex justify-between">
+    <div class="">
+       <p class="text-[25px] font-bold mt-6">Institutions</p>
+      </div>
+      
+      <div class="flex gap-4 ">
+        <button
+        
+        >All</button>
+        <button >Approved</button>
+        <button>Pending</button>
+        <button>Decline</button>
+   
+        <button (click)="openModal()" class="bg-[#4393FF] w-[110px] h-[40px] text-[13px] rounded-[6px] text-white"><span>+</span>
+           Add New</button>
+          </div>
+      </div>
+
+      <div *ngIf="isModalOpen" class="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
+          <div class="bg-white rounded-lg w-full max-w-lg p-6 relative">
+          <div class="flex justify-between items-center mb-4">
+          <div></div>
+          <button class="text-gray-500 hover:text-gray-700" (click)="closeModal()">×</button>
+      </div>
+
+                           <!-- Modal section -->
+  <h3 class="text-xl font-semibold">Add New Row</h3>
+
+  <div >
+    <form #rowForm="ngForm" (ngSubmit)="onSubmit(rowForm)">
+      <div class="flex flex-col mb-4">
+        <label for="name">Name:</label>
+        <input class="border border-gray-300 rounded px-3 py-2" type="text" id="name" name="Name" [(ngModel)]="newRow.Name" required />
+      </div>
+      <div style="display: flex; flex-direction: column;">
+        <label for="phoneNo">Phone No:</label>
+        <input  style="border: 1px solid; border-radius: 5px;" type="text" id="phoneNo" name="PhoneNo" [(ngModel)]="newRow.PhoneNo" required />
+      </div>
+      <div style="display: flex; flex-direction: column;">
+        <label for="email">Email:</label>
+        <input  style="border: 1px solid; border-radius: 5px;" type="email" id="email" name="Email" [(ngModel)]="newRow.Email" required />
+      </div>
+
+      <div style="display: flex; flex-direction: column;">
+        <label for="address">Address:</label>
+        <input  style="border: 1px solid; border-radius: 5px;" type="text" id="address" name="Address" [(ngModel)]="newRow.Address" required />
+      </div>
+      <div style="display: flex; flex-direction: column;">
+        <label for="date">Date:</label>
+        <input style="border: 1px solid; border-radius: 5px;" type="date" id="date" name="Date" [(ngModel)]="newRow.Date" required />
+      </div>
+      <div style="display: flex; flex-direction: column;">
+        <label for="status">Status:</label>
+        <input  style="border: 1px solid; border-radius: 5px;" type="text" id="status" name="Status" [(ngModel)]="newRow.Status" required />
+      </div>
+      <div style="display: flex; flex-direction: column;">
+        <label for="action">Action:</label>
+        <input  style="border: 1px solid; border-radius: 5px;" type="text" id="action" name="Action" [(ngModel)]="newRow.Action" required />
+      </div>
+      <div class="">
+      <button class="add" type="submit" [disabled]="!rowForm.form.valid" >Add Row</button>
+      <button  type="button" (click)="closeModal()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+</div>
+
+
+
+
+                  <!-- All instituion and search bar section -->
+      <div class="mt-5 bg-white">
+        <div class="flex justify-between items-center mx-5">
+        <div class="">
+           <p class="font-bold text-[18px]">All Institutions</p> 
+            <small class="text-[13px] text-[#828282] relative top-[-7px]">View all recent transactions</small>
+        </div>
+
+        <div class="flex gap-2 ">
+            <input 
+            type="text"
+            [(ngModel)]="searchTerm" 
+            placeholder="Search by name" 
+            class="bg-[#EBEBEB] text-[#828282] border rounded-lg h-[33px] w-[271px] px-3 text-[13px] "
+             
+            />
+            <button class="bg-[#4393FF30] h-[33px] w-[113px] text-[13px] rounded-lg border-2 border-[#4393FF] hover:bg-[#7fb1e3]" (click)="exportTableToCSV()">Export Data<span class=""> icon</span></button>
+            <button class="bg-[#4393FF30] h-[33px] w-[79px] text-[13px] rounded-lg border-2 border-[#4393FF] hover:bg-[#7fb1e3]">Filter<span class=""> icon</span></button>
+        </div>
+      </div>
+    </div>
+
+      <div class="mb-10"> 
+      <div class="overflow-x-auto">
+        <table class="min-w-full table-auto text-[#353535]" id="Data">
+          <thead class="h-[42px] bg-gray-100 text-left ">
+            <tr class="px-2 lg:px-0">
+              <th class="px-2 lg:px-5">Name</th>
+              <th class="ppx-2 lg:px-0">Phone No.</th>
+              <th class="px-2 lg:px-0">Address</th>
+              <th class="px-2 lg:px-0">Email</th>
+              <th class="px-2 lg:px-0">Date</th>
+              <th class="px-2 lg:px-0">Status</th>
+              <th class="px-2 lg:px-0">Action</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white ">
+            <tr class="border-b border-gray-200" *ngFor="let item of mappedData, Data let data of filteredData()">
+              <td class="px-2 lg:px-5">{{ item.Name }}</td>
+              <td class="px-2 lg:px-0">{{ item.PhoneNo }}</td>
+              <td class="px-2 lg:px-0">{{ item.Address }}</td>
+              <td class="px-2 lg:px-0">{{ item.Email }}</td>
+              <td class="px-2 lg:px-0">{{ item.Date }}</td>
+              <td class="px-2 lg:px-0">
+                 <div class="text-[12px] font-semibold rounded-[2px] inline-block text-center"
+                 [ngClass]="{
+                'bg-[#1CCAB824] text-[#109688] w-[62px] h-[22px]': item.Status === 'Active',
+              }" 
+              >{{ item.Status }}</div></td>
+              <td class="px-2 lg:px-0">
+                {{ item.Action }}
+
+                <!-- <div class="relative inline-block text-left" (click)="toggleDropdown()">
+                  <a class="cursor-pointer">
+                    <i class="fa-solid fa-ellipsis-vertical text-[#9E9D9D]"></i>
+                  </a> -->
+                
+                  <!-- Dropdown Menu -->
+                  <!-- <button mat-icon-button [matMenuTriggerFor]="menu">
+                    <i class="fa-solid fa-ellipsis-vertical text-[#9E9D9D]"></i>
+                  </button>
+                  
+                  <mat-menu #menu="matMenu">
+                    <button mat-menu-item (click)="viewAction()">
+                      View <i class="fas fa-eye ml-2"></i>
+                    </button>
+                    <button mat-menu-item (click)="editAction()">
+                      Edit <i class="fas fa-pen ml-4"></i>
+                    </button>
+                  </mat-menu> -->
+                  
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+<!-- 
+   <div><label>User
+    <select [(ngModel)]="filterObj.PageSize" (change)="filterCandidate">
+      <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="20">20</option>
+      <option value="40">40</option>
+    </select>Employee</label>
+  </div> 
+
+  <div class="btn-group" id="radioBtn">
+    <a class="btn btn-primary btn-sm notActive" (click)="onPrevious()">Previous</a>
+    <a class="btn btn-primary btn-sm notActive">{{filterObj.PageNumber}}</a>
+    <a class="btn btn-primary btn-sm notActive" (click)="onPrevious()">Next</a>
+  </div> -->
+
+
+
+
+
+
+
