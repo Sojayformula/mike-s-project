@@ -32,7 +32,7 @@
               }
             ],
             "styles": [
-              "node_modules/ng-zorro-antd/ng-zorro-antd.min.css",
+             
               "./node_modules/ng-zorro-antd/ng-zorro-antd.min.css",
               "@angular/material/prebuilt-themes/azure-blue.css",
               "src/styles.scss"
@@ -90,15 +90,13 @@
            
             
             "assets": [
-              {
-                "glob": "**/*",
-                "input": "public",
-                "output": "/assets"
-              }
+              "src/assets",
+              "src/favicon.ico",
+              "public"
             ],
 
             "styles": [
-              "node_modules/ng-zorro-antd/ng-zorro-antd.min.css",
+             
               "./node_modules/ng-zorro-antd/ng-zorro-antd.min.css",
               "@angular/material/prebuilt-themes/azure-blue.css",
               "src/styles.scss"

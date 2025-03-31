@@ -8,14 +8,18 @@ import { PasswordComponent } from './childcomponent/password/password.component'
 import { RoleManagementComponent } from './childcomponent/role-management/role-management.component';
 import { PublicKeyComponent } from './childcomponent/public-key/public-key.component';
 import { SettingsComponent } from './settings/settings.component';
+import { SignInComponent } from './sign-in/sign-in.component';
 
 
 export const routes: Routes = [
 
     {
-        path:"", redirectTo: 'dashboard',
+        path:"", redirectTo: 'signIn',
         pathMatch: "full"
 
+    },
+    {
+        path: "signIn", component: SignInComponent
     },
     
     {

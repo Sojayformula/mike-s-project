@@ -1,22 +1,48 @@
 
-<nav class=" bg-[#D7D7D7] min-h-screen">
-  <div class="flex justify-between text-white bg-black h-[86px] items-center mx-10 ">
+<nav class=" bg-[#EBEBEB] min-h-screen">
+  <div class=" text-white bg-black h-[86px]  mx-10 ">
+    <div class="flex justify-between items-center mx-20 relative top-6">
       <div>
-          ESA
+          <img src="/images/logo.png">
+          <img src="assets/images/logo.png" >
+
       </div>
 
     <div class="flex gap-10">
-      <a routerLink="dashboard" routerLinkActive="active">Dashboard</a>
-      <a routerLink="institution" routerLinkActive="active">Institution</a>
-      <a routerLink="transaction" routerLinkActive="active">Transactions</a>
-      <a routerLink="report" routerLinkActive="active">Report</a>
-      <a routerLink="settings" routerLinkActive="active">Settings</a>
+      <a routerLink="dashboard" 
+      routerLinkActive="bg-[#FFF] text-black" 
+      [routerLinkActiveOptions]="{ exact: false }" 
+      class="hover:bg-gray-200 bg-[#3F3F3F] text-black w-[111px] h-[36px] rounded-[32px] flex items-center justify-center transition-colors duration-300"
+      >Dashboard</a>
+
+      <a routerLink="institution" routerLinkActive="bg-[#FFF] text-black" 
+      [routerLinkActiveOptions]="{ exact: false }" 
+      class="hover:bg-gray-200 bg-[#3F3F3F] text-black w-[111px] h-[36px] rounded-[32px] flex items-center justify-center transition-colors duration-300"
+      >Institution</a>
+
+      <a routerLink="transaction" 
+      routerLinkActive="bg-[#FFF] text-black" 
+      [routerLinkActiveOptions]="{ exact: false }" 
+      class="hover:bg-gray-200 bg-[#3F3F3F] text-black w-[111px] h-[36px] rounded-[32px] flex items-center justify-center transition-colors duration-300"
+      >Transactions</a>
+
+      <a routerLink="report" 
+      routerLinkActive="bg-[#FFF] text-black" 
+      [routerLinkActiveOptions]="{ exact: false }" 
+      class="hover:bg-gray-200 bg-[#3F3F3F] text-black w-[111px] h-[36px] rounded-[32px] flex items-center justify-center transition-colors duration-300"
+      >Report</a>
+      <a routerLink="settings" 
+      routerLinkActive="bg-[#FFF] text-black" 
+      [routerLinkActiveOptions]="{ exact: false }" 
+      class="hover:bg-gray-200 bg-[#3F3F3F] text-black w-[111px] h-[36px] rounded-[32px] flex items-center justify-center transition-colors duration-300"
+      >Settings</a>
     </div>
      
     <div>
       icon
     </div>
   </div>
+</div>
 
 <div >
 <router-outlet></router-outlet>

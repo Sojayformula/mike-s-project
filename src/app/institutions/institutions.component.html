@@ -7,74 +7,108 @@
         INSTITUTIONS
     </span>
     </div>
+
                   <!-- Institution and Add button section -->
     <div class="flex justify-between">
     <div class="">
        <p class="text-[25px] font-bold mt-6">Institutions</p>
-      </div>
-      
-      <div class="flex gap-4 ">
-        <button
-        
+
+       <div class="">
+        <button (click)="toggleSelect('ALL')"
+        class="h-[36px] px-5 rounded-[10px] text-[#777777] cursor-pointer"
+        [ngClass]="{'active-button': selectedChoice === 'ALL'}"
+        [ngClass]="{
+          'text-white bg-gradient-to-b from-[#122C69] to-[#1D0434]': selectedChoice === 'ALL',
+          'text-[#838383]': selectedChoice !== 'ALL'
+        }"
         >All</button>
-        <button >Approved</button>
-        <button>Pending</button>
-        <button>Decline</button>
-   
-        <button (click)="openModal()" class="bg-[#4393FF] w-[110px] h-[40px] text-[13px] rounded-[6px] text-white"><span>+</span>
+
+          <button (click)="toggleSelect('APPROVED')"
+          class="h-[36px] px-5 rounded-[10px] text-[#777777] cursor-pointer"
+        [ngClass]="{'active-button': selectedChoice === 'APPROVED'}"
+        [ngClass]="{
+          'text-white bg-gradient-to-b from-[#122C69] to-[#1D0434]': selectedChoice === 'APPROVED',
+          'text-[#838383]': selectedChoice !== 'APPROVED'
+        }"
+          >Approved</button>
+
+          <button (click)="toggleSelect('PENDING')"
+          class="h-[36px] px-5 rounded-[10px] text-[#777777] cursor-pointer"
+          [ngClass]="{'active-button': selectedChoice === 'PENDING'}"
+          [ngClass]="{
+            'text-white bg-gradient-to-b from-[#122C69] to-[#1D0434]': selectedChoice === 'PENDING',
+            'text-[#838383]': selectedChoice !== 'PENDING'
+          }" 
+          >Pending</button>
+
+          <button (click)="toggleSelect('DECLINED')"
+          class="h-[36px] px-5 rounded-[10px] text-[#777777] cursor-pointer"
+          [ngClass]="{'active-button': selectedChoice === 'DECLINED'}"
+          [ngClass]="{
+            'text-white bg-gradient-to-b from-[#122C69] to-[#1D0434]': selectedChoice === 'DECLINED',
+            'text-[#838383]': selectedChoice !== 'DECLINE'
+          }" 
+          >Declined</button>
+      </div>
+      </div>
+
+                                   
+                                        <!-- Modal section -->
+      <div class=" ">
+        <button  class="bg-[#4393FF] w-[110px] h-[40px] text-[13px] rounded-[6px] text-white"><span>+</span>
            Add New</button>
           </div>
       </div>
 
-      <div *ngIf="isModalOpen" class="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
+      <!-- <div  class="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
           <div class="bg-white rounded-lg w-full max-w-lg p-6 relative">
           <div class="flex justify-between items-center mb-4">
           <div></div>
-          <button class="text-gray-500 hover:text-gray-700" (click)="closeModal()">×</button>
+          <button class="text-gray-500 hover:text-gray-700" >×</button>
       </div>
 
-                           <!-- Modal section -->
+                           
   <h3 class="text-xl font-semibold">Add New Row</h3>
 
   <div >
-    <form #rowForm="ngForm" (ngSubmit)="onSubmit(rowForm)">
+    <form #rowForm="ngForm" (ngSubmit)="(rowForm)">
       <div class="flex flex-col mb-4">
         <label for="name">Name:</label>
-        <input class="border border-gray-300 rounded px-3 py-2" type="text" id="name" name="Name" [(ngModel)]="newRow.Name" required />
+        <input class="border border-gray-300 rounded px-3 py-2" type="text" id="name" name="Name" required />
       </div>
       <div style="display: flex; flex-direction: column;">
         <label for="phoneNo">Phone No:</label>
-        <input  style="border: 1px solid; border-radius: 5px;" type="text" id="phoneNo" name="PhoneNo" [(ngModel)]="newRow.PhoneNo" required />
+        <input  style="border: 1px solid; border-radius: 5px;" type="text" id="phoneNo" name="PhoneNo"  required />
       </div>
       <div style="display: flex; flex-direction: column;">
         <label for="email">Email:</label>
-        <input  style="border: 1px solid; border-radius: 5px;" type="email" id="email" name="Email" [(ngModel)]="newRow.Email" required />
+        <input  style="border: 1px solid; border-radius: 5px;" type="email" id="email" name="Email" required />
       </div>
 
       <div style="display: flex; flex-direction: column;">
         <label for="address">Address:</label>
-        <input  style="border: 1px solid; border-radius: 5px;" type="text" id="address" name="Address" [(ngModel)]="newRow.Address" required />
+        <input  style="border: 1px solid; border-radius: 5px;" type="text" id="address" name="Address"  required />
       </div>
       <div style="display: flex; flex-direction: column;">
         <label for="date">Date:</label>
-        <input style="border: 1px solid; border-radius: 5px;" type="date" id="date" name="Date" [(ngModel)]="newRow.Date" required />
+        <input style="border: 1px solid; border-radius: 5px;" type="date" id="date" name="Date"  required />
       </div>
       <div style="display: flex; flex-direction: column;">
         <label for="status">Status:</label>
-        <input  style="border: 1px solid; border-radius: 5px;" type="text" id="status" name="Status" [(ngModel)]="newRow.Status" required />
+        <input  style="border: 1px solid; border-radius: 5px;" type="text" id="status" name="Status"  required />
       </div>
       <div style="display: flex; flex-direction: column;">
         <label for="action">Action:</label>
-        <input  style="border: 1px solid; border-radius: 5px;" type="text" id="action" name="Action" [(ngModel)]="newRow.Action" required />
+        <input  style="border: 1px solid; border-radius: 5px;" type="text" id="action" name="Action"  required />
       </div>
       <div class="">
       <button class="add" type="submit" [disabled]="!rowForm.form.valid" >Add Row</button>
-      <button  type="button" (click)="closeModal()">Cancel</button>
+      <button  type="button">Cancel</button>
       </div>
     </form>
   </div>
-</div>
-</div>
+</div> 
+</div>-->
 
 
 
@@ -90,39 +124,116 @@
         <div class="flex gap-2 ">
             <input 
             type="text"
-            [(ngModel)]="searchTerm" 
+            [(ngModel)]="searchTerm"
+            (input)="filteredData()"
             placeholder="Search by name" 
             class="bg-[#EBEBEB] text-[#828282] border rounded-lg h-[33px] w-[271px] px-3 text-[13px] "
              
             />
-            <button class="bg-[#4393FF30] h-[33px] w-[113px] text-[13px] rounded-lg border-2 border-[#4393FF] hover:bg-[#7fb1e3]" (click)="exportTableToCSV()">Export Data<span class=""> icon</span></button>
-            <button class="bg-[#4393FF30] h-[33px] w-[79px] text-[13px] rounded-lg border-2 border-[#4393FF] hover:bg-[#7fb1e3]">Filter<span class=""> icon</span></button>
+
+            <button (click)="exportTableToCSV()" class="bg-[#4393FF30] h-[33px] w-[113px] text-[13px] rounded-lg border-2 border-[#4393FF] hover:bg-[#7fb1e3]" >
+              Export Data<span class=""> icon</span>
+            </button>
+            <button class="bg-[#4393FF30] h-[33px] w-[79px] text-[13px] rounded-lg border-2 border-[#4393FF] hover:bg-[#7fb1e3]">
+              Filter<span class=""> icon</span>
+            </button>
         </div>
       </div>
     </div>
 
+    <!-- *ngIf="apiData.length"
+     {{item.appliedBy.personalDetails.firstName + ' ' + item.appliedBy.personalDetails.lastName}}
+      -->
       <div class="mb-10"> 
       <div class="overflow-x-auto">
-        <table class="min-w-full table-auto text-[#353535]" id="Data">
+        <table class="min-w-full table-auto text-[#353535]" id="Data"  *ngIf="apiData.length > 0; else noData"> 
           <thead class="h-[42px] bg-gray-100 text-left ">
             <tr class="px-2 lg:px-0">
-              <th class="px-2 lg:px-5">Name</th>
-              <th class="ppx-2 lg:px-0">Phone No.</th>
-              <th class="px-2 lg:px-0">Address</th>
-              <th class="px-2 lg:px-0">Email</th>
-              <th class="px-2 lg:px-0">Date</th>
+              <th class="px-2 lg:px-5">Requested by</th>
+              <th class="ppx-2 lg:px-0">Department</th>
+              <th class="px-2 lg:px-0">Date Requested</th>
+              <th class="px-2 lg:px-0">Leave Type</th>
+              <th class="px-2 lg:px-0">Start Date</th>
+              <th class="px-2 lg:px-0">End Date</th>
+              <th class="px-2 lg:px-0">Total Days</th>
+              <th class="px-2 lg:px-0">Approved By</th>
               <th class="px-2 lg:px-0">Status</th>
               <th class="px-2 lg:px-0">Action</th>
             </tr>
           </thead>
-          <tbody class="bg-white ">
-            <tr class="border-b border-gray-200" *ngFor="let item of mappedData, Data let data of filteredData()">
-              <td class="px-2 lg:px-5">{{ item.Name }}</td>
-              <td class="px-2 lg:px-0">{{ item.PhoneNo }}</td>
-              <td class="px-2 lg:px-0">{{ item.Address }}</td>
-              <td class="px-2 lg:px-0">{{ item.Email }}</td>
-              <td class="px-2 lg:px-0">{{ item.Date }}</td>
-              <td class="px-2 lg:px-0">
+          <tbody class="bg-white">
+            <tr class="border-b border-gray-200" *ngFor=" let item of apiData ">
+              <td class="px-2 lg:px-5">{{ item.appliedBy.personalDetails.firstName }} {{ item.appliedBy.personalDetails.lastName }}</td>
+              <td class="px-2 lg:px-0">{{item.appliedBy.department.name || 'N/A'}}</td>
+              <td class="px-2 lg:px-0">{{item.createdAt | date:'dd-MM-yyyy'}}</td>
+              <td class="px-2 lg:px-0">{{item.leaveType.name}}</td>
+              <td class="px-2 lg:px-0">{{item.startDate | date:'dd-MM-yyyy'}}</td>
+              <td class="px-2 lg:px-0">{{item.endDate | date:'dd-MM-yyyy'}}</td>
+              <td class="px-2 lg:px-0">{{item.totalDays}}</td>
+              <td class="px-2 lg:px-0">{{item.decidedBy || 'N/A'}}</td>
+
+              <td>
+                <div [ngStyle]="{'background-color':item.leaveStatus === 'APPROVED' ? '#E9FFEF' :
+              item.leaveStatus === 'PENDING' ? 'rgba(178, 113, 23, 0.06)' :
+              item.leaveStatus === 'DECLINED' ? 'rgba(178, 23, 23, 0.05)' : '',
+              'color':item.leaveStatus === 'APPROVED' ? '#17B26A' : 
+              item.leaveStatus === 'PENDING' ? '#B27117' :
+              item.leaveStatus === 'DECLINED' ? '#B21717' : ''}"
+              class="flex justify-center items-center h-[25px] w-[100px] rounded-[10px] gap-x-2">
+                  <i class="fa-solid fa-circle-check text-[12px]"></i>
+                  <span
+                    class="text-[12px] font-semibold">{{item.leaveStatus}}</span> 
+                </div>
+              </td>
+
+              <td>
+                <a nz-dropdown nzTrigger="click" (click)="storeId(item?._id)" [nzDropdownMenu]="menu">
+                  <!-- <i class="fa-solid fa-ellipsis-vertical text-[#9E9D9D] text-[20px]"></i> -->
+                  <nz-icon nzType="ellipsis" nzTheme="outline" nzRotate="90"></nz-icon>
+            <nz-icon/>
+            <!-- <nz-icon nzType="ellipsis" nzTheme="outline"></nz-icon> -->
+          </a>
+
+          <nz-dropdown-menu #menu="nzDropdownMenu">
+            <ul nz-menu>
+              <li nz-menu-item (click)="approve(item._id)">
+                <span class="text-green-600">Approved</span>
+              </li>
+              <li nz-menu-item (click)="markPending(item._id)">
+                <span class="text-yellow-600">Pending</span>
+              </li>
+              <li nz-menu-item (click)="decline(item._id)">
+                <span class="text-red-600">Decline</span>
+              </li>
+            </ul>
+          </nz-dropdown-menu>
+              </td>
+            </tr>
+          </tbody>
+
+          <div class="pagination">
+            <button (click)="prevPage()" [disabled]="pageIndex === 1">Previous</button>
+            <span>Page {{pageIndex}} of {{totalPages}}</span>
+            <button (click)="nextPage()" [disabled]="pageIndex >= totalPages">Next</button>
+          </div>
+        </table>
+
+        <!-- Handle empty data case -->
+        <ng-template #noData>
+          <tr>
+            <td colspan="3" style="text-align: center;">No leaves found for "{{ searchQuery }}"</td>
+          </tr>
+        </ng-template>
+      </div>
+    </div>
+
+
+
+    <!-- (input)="filterTable()" -->
+
+
+
+ <!-- <td class="px-2 lg:px-0">
                  <div class="text-[12px] font-semibold rounded-[2px] inline-block text-center"
                  [ngClass]="{
                 'bg-[#1CCAB824] text-[#109688] w-[62px] h-[22px]': item.Status === 'Active',
@@ -130,52 +241,89 @@
               >{{ item.Status }}</div></td>
               <td class="px-2 lg:px-0">
                 {{ item.Action }}
+                  
+              </td> -->
 
-                <!-- <div class="relative inline-block text-left" (click)="toggleDropdown()">
-                  <a class="cursor-pointer">
-                    <i class="fa-solid fa-ellipsis-vertical text-[#9E9D9D]"></i>
-                  </a> -->
-                
-                  <!-- Dropdown Menu -->
-                  <!-- <button mat-icon-button [matMenuTriggerFor]="menu">
-                    <i class="fa-solid fa-ellipsis-vertical text-[#9E9D9D]"></i>
-                  </button>
-                  
-                  <mat-menu #menu="matMenu">
-                    <button mat-menu-item (click)="viewAction()">
-                      View <i class="fas fa-eye ml-2"></i>
-                    </button>
-                    <button mat-menu-item (click)="editAction()">
-                      Edit <i class="fas fa-pen ml-4"></i>
-                    </button>
-                  </mat-menu> -->
-                  
-              </td>
-            </tr>
-          </tbody>
-        </table>
+
+
+
+    <!-- <div  class="overflow-auto w-full m-auto md:w-[100%] text-[12px] md:text-[16px] md:m-auto">       
+      <nz-table *ngIf="listOfData.length > 0" [nzPageSize]="2" [nzData]="listOfData" [nzShowPagination]="false"
+       [nzScroll]="{ y: '230px',x:'1800px'}" class="w-[100%] md:w-[100%] md:m-auto text-[12px]">
+       <div *ngIf="listOfData.length === 0" class="border-1 border-red-400 w-[100%] h-[600px] pl-[300%] flex justify-center items-center">
+        <p>No leave requests found.</p>
       </div>
+      <table>
+        <thead>
+          <tr class="!text-[12px] md:!text-[14px]">
+          <th nzWidth="180px">Requested by</th>
+          <th nzWidth="150px">Department</th>
+          <th nzWidth="170px">Date Requested</th>
+          <th nzWidth="170px">Leave Type</th>
+          <th nzWidth="170px">Start Date</th>
+          <th nzWidth="170px">End Date</th>
+          <th nzWidth="110px">Total Days</th>
+          <th nzWidth="190px">Approved By</th>
+          <th nzWidth="150px">Status</th>
+          <th nzWidth="120px">Action</th>
+          </tr>
+        </thead>
+        <tbody class="!text-[12px] md:!text-[14px]">
+          <tr *ngFor="let leave of apiData">
+          <td>{{leave.appliedBy.personalDetails.firstName + ' ' + leave.appliedBy.personalDetails.lastName}}</td>
+          <td>{{leave.appliedBy.department.name || 'N/A'}}</td>
+          <td>{{leave.createdAt | date:'dd-MM-yyyy'}}</td>
+          <td>{{leave.leaveType.name}}</td>
+          <td>{{leave.startDate | date:'dd-MM-yyyy'}}</td>
+          <td>{{leave.endDate | date:'dd-MM-yyyy'}}</td>
+          <td>{{leave.totalDays}}</td>
+          <td>{{leave.decidedBy || 'N/A'}}</td>
+          <td>
+            <div [ngStyle]="{'background-color':leave.leaveStatus === 'APPROVED' ? '#E9FFEF' :
+          leave.leaveStatus === 'PENDING' ? 'rgba(178, 113, 23, 0.06)' :
+          leave.leaveStatus === 'DECLINED' ? 'rgba(178, 23, 23, 0.05)' : '',
+          'color':leave.leaveStatus === 'APPROVED' ? '#17B26A' : 
+          leave.leaveStatus === 'PENDING' ? '#B27117' :
+          leave.leaveStatus === 'DECLINED' ? '#B21717' : ''}"
+          class="flex justify-center items-center h-[25px] w-[100px] rounded-[10px] gap-x-2">
+              <i class="fa-solid fa-circle-check text-[12px]"></i>
+              <span
+                class="text-[12px] font-semibold">{{leave.leaveStatus}}</span>
+            </div>
+          </td>
+            <td>
+              <a nz-dropdown nzTrigger="click" (click)="storeId(leave?._id)" [nzDropdownMenu]="menu">
+                <i class="fa-solid fa-ellipsis-vertical text-[#9E9D9D] text-[20px]"></i>
+          <nz-icon/>  </a>
+            </td> 
+          </tr>
+          </tbody>
+          </table>
+      </nz-table>
+    </div>  
+  
+      <div class="flex justify-between items-center p-2">
+        <div class="flex items-center w-[37%] text-[14px]">
+        <div class="pagination-info w-[110%] md:text-[14px] md:w-[50%]">
+          Showing {{ getStartItem() }} to {{ getEndItem() }} of {{ totalItems }} items
+          
+        </div>
+        <div>
+          Choose Number of Items:
+          <select id="pageSize" [(ngModel)]="page" (change)="onPageSizeChange()"
+      class="border border-gray-300 rounded px-2 py-1 text-[10px] md:text-[14px]">
+      <option *ngFor="let size of pageSizeOptions" [value]="size">{{ size }}</option>
+    </select>
+        </div>
+      </div>
+  
+      <div class="w-[190%] md:w-[240%] lg:w-fit !text-[10px] md:!text-[16px]">
+        <nz-pagination
+        [nzPageIndex]="pageIndex"
+        [nzPageSize]="page"
+        [nzTotal]="100"
+        (nzPageIndexChange)="onPageChange($event)">
+      </nz-pagination>
     </div>
-  </div>
-<!-- 
-   <div><label>User
-    <select [(ngModel)]="filterObj.PageSize" (change)="filterCandidate">
-      <option value="5">5</option>
-      <option value="10">10</option>
-      <option value="20">20</option>
-      <option value="40">40</option>
-    </select>Employee</label>
-  </div> 
-
-  <div class="btn-group" id="radioBtn">
-    <a class="btn btn-primary btn-sm notActive" (click)="onPrevious()">Previous</a>
-    <a class="btn btn-primary btn-sm notActive">{{filterObj.PageNumber}}</a>
-    <a class="btn btn-primary btn-sm notActive" (click)="onPrevious()">Next</a>
+  </div>  
   </div> -->
-
-
-
-
-
-
-
