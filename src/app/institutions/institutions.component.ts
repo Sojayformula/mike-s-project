@@ -14,7 +14,9 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { BehaviorSubject } from 'rxjs';
-
+import { NzSelectModule } from 'ng-zorro-antd/select'
+import { NzModalModule } from 'ng-zorro-antd/modal'
+import { NzFormModule } from 'ng-zorro-antd/form';
 
 
 
@@ -27,12 +29,13 @@ import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-institutions',
-  imports: [CommonModule, NzDropDownModule, NzIconModule, FormsModule,],
+  imports: [CommonModule, NzDropDownModule, NzFormModule, NzIconModule, FormsModule, NzSelectModule, NzModalModule ],
   templateUrl: './institutions.component.html',
   styleUrl: './institutions.component.scss'
 })
 export class InstitutionsComponent implements OnInit {
   searchControl: any;
+
   //cdr: any;
 approve(arg0: any) {
 throw new Error('Method not implemented.');
@@ -52,8 +55,10 @@ throw new Error('Method not implemented.');
  departmentList: any[] = [];
  originalData: any[] = [];
  
- //selectedStatus: string = ''; // Holds the currently selected status filter
-//  isFiltered: boolean = false; // Flag to toggle between filtered/unfiltered data
+ isFilterModalVisible = false;
+ filterData = { department: '', leaveType: '' };
+ departmentOptions: any[] = [];
+ leaveTypeOptions: any[] = [];
 
 
   leaveData!: leaveModel;
@@ -73,8 +78,6 @@ throw new Error('Method not implemented.');
   searchQuery: string = ''; // Holds search input value
   //search: string = ''; // Add this property for search functionality
   totalPages = Math.ceil(this.totalItems / this.pageSize);
- 
-
 
 
   constructor(private cdr: ChangeDetectorRef,  private router:Router, private leaveMgtService:LeaveManagementService,private notification:NzNotificationService) {
@@ -94,7 +97,15 @@ throw new Error('Method not implemented.');
 
   ngOnInit(): void {
     this.getAllLeaves();
+    this.fetchDepartments(); 
+    this.fetchLeaveTypes();
   }
+  // fetchDepartments() {
+  //   throw new Error('Method not implemented.');
+  // }
+  // fetchLeaveTypes() {
+  //   throw new Error('Method not implemented.');
+  // }
 
   getAllLeaves(): void {
     const leaveStatus = this.getLeaveData.leaveStatus || '';
@@ -113,7 +124,6 @@ throw new Error('Method not implemented.');
         if (res.leaves.length === 0) {
           console.warn('No results found for:', searchQuery);
         }
-        //this.apiData = res.leaves;
         this.apiData = [...res.leaves];
         this.originalData = [...res.leaves]; 
         console.log('Updated Table Data:', this.apiData);
@@ -145,8 +155,6 @@ throw new Error('Method not implemented.');
       return this.apiData;
     }
   
-    
-    
   
     // Filter the data based on the search term
     console.log('Before Filtering:', this.apiData);
@@ -167,8 +175,6 @@ throw new Error('Method not implemented.');
   
     return filteredResults;
   }
-
-
 
 
   // Function to Toggle ALL APPROVED PENDING DECLINED
@@ -225,6 +231,84 @@ onPaginateChange(event: PageEvent) {
     }
   }
 
+  
+  openFilterModal() {
+    this.isFilterModalVisible = true;
+  }
+  
+  closeFilterModal() {
+    this.isFilterModalVisible = false;
+  }
+  
+  applyFilters() {
+    this.getLeaveData.department = this.filterData.department;
+    this.getLeaveData.leaveType = this.filterData.leaveType;
+    this.getAllLeaves();
+    this.isFilterModalVisible = false;
+  }
+
+
+
+           //Filter by department//
+  fetchDepartments() {
+    this.leaveMgtService.listDepartment(this.departmentData).subscribe({
+      next: (res) => {
+        console.log('Fetched Departments:', res); // Debugging output
+  
+        if (res && res.data && res.data.departments) {
+          this.departmentOptions = res.data.departments.map((dept: any) => ({
+            label: dept.name, // Display the department name
+            value: dept._id   // Use _id as the value
+          }));
+          console.log('Processed department options:', this.departmentOptions);
+        } else {
+          console.warn('No department data found in API response.');
+        }
+      },
+      error: (err) => console.error('Error fetching departments:', err)
+    });
+  }
+
+
+                //Filter by leave type//
+  fetchLeaveTypes(): void {
+    this.leaveMgtService.getLeaveType(this.leaveTypeData).subscribe({
+      next: (res) => {
+        console.log('Fetched Leave Types:', res); // Log the full response for debugging
+  
+        // Check if the structure of the response matches your expectations
+        if (res && res.data &&  res.data.leavetypes) {
+          this.leaveTypeOptions = res.data.leavetypes.map((type: any) => ({
+            label: type.name,  // Display the leave type name
+            value: type._id    // Use _id as the value for selection
+          }));
+          console.log('Processed leave type options:', this.leaveTypeOptions);
+        } else {
+          console.warn('No leave types found in API response.');
+        }
+      },
+      error: (err) => {
+        console.error('Error fetching leave types:', err);
+      }
+    });
+  }
+  
+  
+  
+
+  applyFilter() {
+    this.pageIndex = 1; // Reset to first page when filtering
+    
+    // Update filters in the request object
+    this.getLeaveData.department = this.filterData.department; 
+    this.getLeaveData.leaveType = this.filterData.leaveType; // Include leaveType filter
+    
+    // Call the function to get leaves with the updated filters
+    this.getAllLeaves(); 
+    this.isFilterModalVisible = false; // Optionally close the filter modal
+  }
+  
+
 }
 
 
@@ -234,7 +318,17 @@ onPaginateChange(event: PageEvent) {
 
 
 
-
+  // fetchDepartments() {
+  //   this.leaveMgtService.listDepartment(this.departmentData).subscribe({
+  //     next: (res) => {
+  //       this.departmentOptions = res.departments.map((dept: any) => ({
+  //         label: dept.name,
+  //         value: dept._id
+  //       }));
+  //     },
+  //     error: (err) => console.error('Error fetching departments:', err)
+  //   });
+  // }
 
 
 

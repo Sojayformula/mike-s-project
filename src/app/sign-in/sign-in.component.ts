@@ -5,10 +5,12 @@ import { Router } from '@angular/router';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { LoginModel } from '../models/login-model';
 import { AuthenticationServiceService } from '../services/authentication-service.service';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+
 
 @Component({
   selector: 'app-sign-in',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MatProgressSpinnerModule],
   templateUrl: './sign-in.component.html',
   styleUrl: './sign-in.component.scss'
 })
@@ -17,11 +19,12 @@ export class SignInComponent {
   formatProgress = () => null;  
 
   apiData!:LoginModel
-
+  isLoading = false;
   loading = false;
 
   email: string = '';
   password: string = '';
+
 
  constructor(private router:Router,private authService:AuthenticationServiceService, private notification:NzNotificationService) {
    this.apiData = new LoginModel()
@@ -30,30 +33,17 @@ export class SignInComponent {
 
  ngOnInit(): void {}
 
- // onSignIn(){
- //   console.log('triggered')
- //   this.router.navigate(["/app-layout/layout/dashboard"])
- // }
-
  createNotification(position: 'top', type: 'success'| 'info'| 'warning'| 'error', title: string, message: string ){
    this.notification.create(type, title, message, {nzPlacement: position, nzDuration: 3000});
  }
 
- test(){
-   console.log('testing')
-   this.router.navigate(["dashboard"])
- }
-
  submit(item:NgForm){
-   this.loading = true;
-
-
+   //this.loading = true;
+   this.isLoading = true;
 
    console.log("ama:",this.apiData)
    
    this.authService.login(this.apiData).subscribe({
-     
-     
      next:(response)=>{
       console.log('success',response.token)
       localStorage.setItem('token', response.token)
@@ -67,17 +57,21 @@ export class SignInComponent {
      }else{
        this.router.navigate(["dashboard"])
      }
+     this.isLoading = false;
      },
      error:(error)=>{
        this.loading = false;
        console.log('error',error)
        this.createNotification("top", "error", "Login Failed!!", "Invalid Credentials!")
        // alert('login failed!!')
+       item.resetForm();
+       //this.loading = false;
+       this.isLoading = false;
      },complete:()=>{
+      this.isLoading = false;
        console.log('completed')
      }
-   })
- }
-
+    });
+  }
 
 }

@@ -50,9 +50,27 @@ createLeave(item:leaveModel):Observable<any>{
   return this.http.post(environment.baseUrl + '/leave/create',item)
 }
 
- getLeaveType(item:leavetypeModel):Observable<any>{
-  return this.http.get(environment.baseUrl + '/leave-types/list-leave-types')
- }
+//  getLeaveType(leaveTypeData: leavetypeModel):Observable<any>{
+//   return this.http.get(environment.baseUrl + '/leave-types/list-leave-types')
+//  }
+
+getLeaveType(leaveTypeData: leavetypeModel): Observable<any> {
+  let url = `${environment.baseUrl}/leave-types/list-leave-types`;
+
+  // Add pagination or filtering params if necessary
+  let isFirstParam = true;
+  if (leaveTypeData.page) {
+    url += `${isFirstParam ? '?' : '&'}page=${leaveTypeData.page}`;
+    isFirstParam = false;
+  }
+  if (leaveTypeData.pageSize) {
+    url += `${isFirstParam ? '?' : '&'}pageSize=${leaveTypeData.pageSize}`;
+    isFirstParam = false;
+  }
+
+  return this.http.get<any>(url); // Make the HTTP GET request
+}
+
 
  decideLeave(item:decideLeaveModel):Observable<any>{
   return this.http.post(environment.baseUrl + '/leave/decide-on-leave',item)

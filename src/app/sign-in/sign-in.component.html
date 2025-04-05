@@ -1,27 +1,52 @@
-<form #userForm="ngForm" (ngSubmit)="submit(userForm)" class="mx-20 mt-20 h-[20rem]  bg-white w-[30rem]">
+
+<form #userForm="ngForm" (ngSubmit)="submit(userForm)" class="lg:mx-20 mx-2 mt-20 h-[22rem] bg-white lg:w-[30rem]">
     <div class="mx-10 space-y-4 relative top-20">
     <div class="flex flex-col">
-        <label for="email">Email:</label>
+        <label>Email:</label>
         <input 
         type="email" 
         id="email"
         [(ngModel)]="apiData.email" 
+        #email="ngModel"
         name="email" 
         required
-        class="w-[25rem] h-8 rounded-lg bg-[#E2E2E2]">
+        class="w-[25rem] h-8 rounded-lg bg-[#E2E2E2] p-4">
+          <div *ngIf="email.invalid && (email.dirty || email.touched) " class="alert">
+            <div *ngIf="email.hasError('required')" class="text-red-600 text-[11px]">Email is required*</div>
+            <div *ngIf="email.hasError('email')">
+              Enter a valid email.
+            </div>
+        </div>
       </div>
 
       <div class="flex flex-col">
-        <label for="email">password:</label>
+        <label>password:</label>
         <input 
         type="password" 
         id="password"
         [(ngModel)]="apiData.password" 
-        name="email" 
+        #password="ngModel"
+        name="password" 
+        minlength="8"
         required 
-        class="w-[25rem] h-8 rounded-lg bg-[#E2E2E2]">
+        class="w-[25rem] h-8 rounded-lg bg-[#E2E2E2] p-4">
+        <div *ngIf="password.hasError('required')" class="text-red-600 text-[11px]">Password is required*</div>
+        <div *ngIf="password.hasError('minlength')" class="text-red-600 text-[11px]">
+         Password must be at least 8 characters long*
+        </div>
       </div>
 
-      <button type="submit">Sign In</button>
+      <!-- <button type="submit">Sign In</button> -->
+      <button type="submit" [disabled]="userForm.invalid || loading" class="bg-green-500 w-40 h-10 rounded-lg text-white text-lg relative top-6"
+      [disabled]="userForm.invalid || !userForm.dirty">
+        Login
+      </button>
+      <p>{{loading ? 'Loading...' : ''}}</p>
+
+      <div *ngIf="isLoading" class="mt-6 relative top-4">
+        <mat-spinner [diameter]="50"></mat-spinner>
+      </div>
+
     </div>
 </form>
+

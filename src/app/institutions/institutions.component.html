@@ -127,19 +127,90 @@
             [(ngModel)]="searchTerm"
             (input)="filteredData()"
             placeholder="Search by name" 
-            class="bg-[#EBEBEB] text-[#828282] border rounded-lg h-[33px] w-[271px] px-3 text-[13px] "
+            class="bg-[#EBEBEB] text-[#828282] border-2 rounded-lg h-[33px] w-[271px] px-3 text-[13px] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 hover:border-red-500"
              
             />
-
+                              <!-- Export button -->
             <button (click)="exportTableToCSV()" class="bg-[#4393FF30] h-[33px] w-[113px] text-[13px] rounded-lg border-2 border-[#4393FF] hover:bg-[#7fb1e3]" >
               Export Data<span class=""> icon</span>
             </button>
-            <button class="bg-[#4393FF30] h-[33px] w-[79px] text-[13px] rounded-lg border-2 border-[#4393FF] hover:bg-[#7fb1e3]">
+
+                              <!-- Filter button -->
+            <button nz-button nzType="primary" (click)="openFilterModal()" class="bg-[#4393FF30] h-[33px] w-[79px] text-[13px] rounded-lg border-2 border-[#4393FF] hover:bg-[#7fb1e3]">
               Filter<span class=""> icon</span>
             </button>
+           </div>
+           </div>
+
+
+
+
+           <nz-modal [(nzVisible)]="isFilterModalVisible" 
+          nzTitle="Filter Leaves" 
+          (nzOnCancel)="closeFilterModal()" 
+          [nzFooter]="modalFooter">
+  <ng-container *nzModalContent>
+    <form>
+      <div class="filter-container">
+        <nz-form-item>
+          <label for="department">Department:</label>
+          <select [(ngModel)]="filterData.department" name="department" >
+            <option value="">All Departments</option>
+            <option *ngFor="let dept of departmentOptions" [value]="dept.value">{{ dept.label }}</option>
+          </select>
+        </nz-form-item>
+
+        <div *ngIf="leaveTypeOptions.length > 0; else noLeaveTypes">
+          <!-- Dropdown with leave types -->
+          <nz-form-item>
+            <label for="leaveType">Leave Type:</label>
+            <select [(ngModel)]="filterData.leaveType" name="leaveType" (change)="applyFilter()">
+              <option value="">All Leave Types</option>
+              <option *ngFor="let type of leaveTypeOptions" [value]="type.value">{{ type.label }}</option>
+            </select>
+          </nz-form-item>
         </div>
+        <ng-template #noLeaveTypes>
+          <p>No leave types available</p>
+        </ng-template> 
       </div>
-    </div>
+    </form>
+  </ng-container>
+
+  <!-- Footer for Buttons -->
+  <ng-template #modalFooter>
+    <button nz-button (click)="closeFilterModal()">Cancel</button>
+    <button nz-button nzType="primary" (click)="applyFilters()">Apply Filter</button>
+  </ng-template>
+</nz-modal>
+
+
+                                <!-- Fliter modal -->
+       <!-- <nz-modal [(nzVisible)]="isFilterModalVisible" nzTitle="Filter Leaves" (nzOnCancel)="closeFilterModal()" [nzFooter]="null">
+          <ng-container *nzModalContent>
+            <form>
+            <div class="filter-container">
+              <nz-form-item>
+              <label for="department">Department:</label>
+              <select [(ngModel)]="filterData.department" name="department" (change)="applyFilter()">
+                <option value="">All Departments</option>
+                <option *ngFor="let dept of departmentOptions" [value]="dept.value">{{ dept.label }}</option>
+              </select>
+            </nz-form-item>
+            
+              <label for="leaveType">Leave Type:</label>
+              <select [(ngModel)]="filterData.leaveType" (change)="applyFilter()">
+                <option value="">All Leave Types</option>
+                <option *ngFor="let type of leaveTypeOptions" [value]="type.value">{{ type.label}}</option>
+              </select>
+            
+              <button (click)="applyFilter()">Apply Filter</button>
+            </div>
+          </form>
+          </ng-container>
+        </nz-modal> -->
+
+         
 
     <!-- *ngIf="apiData.length"
      {{item.appliedBy.personalDetails.firstName + ' ' + item.appliedBy.personalDetails.lastName}}
@@ -171,7 +242,6 @@
               <td class="px-2 lg:px-0">{{item.endDate | date:'dd-MM-yyyy'}}</td>
               <td class="px-2 lg:px-0">{{item.totalDays}}</td>
               <td class="px-2 lg:px-0">{{item.decidedBy || 'N/A'}}</td>
-
               <td>
                 <div [ngStyle]="{'background-color':item.leaveStatus === 'APPROVED' ? '#E9FFEF' :
               item.leaveStatus === 'PENDING' ? 'rgba(178, 113, 23, 0.06)' :
@@ -210,22 +280,23 @@
               </td>
             </tr>
           </tbody>
-
-          <div class="pagination">
-            <button (click)="prevPage()" [disabled]="pageIndex === 1">Previous</button>
-            <span>Page {{pageIndex}} of {{totalPages}}</span>
-            <button (click)="nextPage()" [disabled]="pageIndex >= totalPages">Next</button>
-          </div>
         </table>
-
-        <!-- Handle empty data case -->
-        <ng-template #noData>
-          <tr>
-            <td colspan="3" style="text-align: center;">No leaves found for "{{ searchQuery }}"</td>
-          </tr>
-        </ng-template>
       </div>
+         <!-- Handle empty data case -->
+     <ng-template #noData>
+      <tr>
+        <td colspan="3" style="text-align: center;">No data found</td>
+      </tr>
+    </ng-template>
+    
+
+    <div class="bg-[#EBEBEB]">
+    <div class="pagination">
+      <button (click)="prevPage()" [disabled]="pageIndex === 1">Previous</button>
+      <span>Page {{pageIndex}} of {{totalPages}}</span>
+      <button (click)="nextPage()" [disabled]="pageIndex >= totalPages">Next</button>
     </div>
+  </div>
 
 
 
