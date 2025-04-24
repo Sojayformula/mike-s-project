@@ -14,11 +14,12 @@ import { getLeaveModel, mediaModel, departmentModel } from '../models/get-leave.
 })
 export class LeaveManagementService {
 
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient) { }   //leaveTypeData: leavetypeModel
 
-  fetchAllLeaves(leaveStatus: string, leaveType: string, page: string, pageSize: string, searchQuery: string, item: getLeaveModel):Observable<any>{
+
+  fetchAllLeaves( item: getLeaveModel):Observable<any>{
     console.log("give me leaves",item)
-    let url = `${environment.baseUrl}/leave/list-all-leaves`
+    let url = `${environment.baseUrl}/leave/list-all-leaves`     
 
     let isFirstParam = true;
 
@@ -46,13 +47,10 @@ export class LeaveManagementService {
   }
 
 
-createLeave(item:leaveModel):Observable<any>{
-  return this.http.post(environment.baseUrl + '/leave/create',item)
-}
+// createLeave(item:leaveModel):Observable<any>{
+//   return this.http.post(environment.baseUrl + '/leave/create',item)
+// }
 
-//  getLeaveType(leaveTypeData: leavetypeModel):Observable<any>{
-//   return this.http.get(environment.baseUrl + '/leave-types/list-leave-types')
-//  }
 
 getLeaveType(leaveTypeData: leavetypeModel): Observable<any> {
   let url = `${environment.baseUrl}/leave-types/list-leave-types`;
@@ -71,17 +69,6 @@ getLeaveType(leaveTypeData: leavetypeModel): Observable<any> {
   return this.http.get<any>(url); // Make the HTTP GET request
 }
 
-
- decideLeave(item:decideLeaveModel):Observable<any>{
-  return this.http.post(environment.baseUrl + '/leave/decide-on-leave',item)
- }
-
- uploadFile(file:File):Observable<any>{
-  const formData = new FormData();
-  formData.append('file', file);
-  return this.http.post(environment.baseUrl + '/media/upload',formData)
- }
-
  listDepartment(item: departmentModel): Observable<any> {
 
   console.log('what we expect:', item)
@@ -97,29 +84,13 @@ getLeaveType(leaveTypeData: leavetypeModel): Observable<any> {
     url += `${isFirstParam ? '?' : '&'}pageSize=${item.pageSize}`;
     isFirstParam = false;
   }
-  // if (item.department) {
-  //   url += `${isFirstParam ? '?' : '&'}department=${item.department}`;
-  //   isFirstParam = false;
-  // }
-  // if (item.employeeStatus) {
-  //   url += `${isFirstParam ? '?' : '&'}employeeStatus=${item.employeeStatus}`;
-  //   isFirstParam = false;
-  // }
-  // if (item.search) {
-  //   url += `${isFirstParam ? '?' : '&'}search=${item.search}`;
-  //   isFirstParam = false;
-  // }
+
   return this.http.get<departmentModel>(url)
 }
 
+// isAuthenticated(): boolean {
+//   const token = localStorage.getItem('token');
+//   return !!token;
+// }
+
 }
-
-  // fetchAllLeaves(leaveStatus: string, leaveType: string, page: string, pageSize: string, searchQuery: string):Observable<any>{
-  //   return this.http.get(environment.baseUrl + `/leave/list-all-leaves?page=${page}&pageSize=${pageSize}`);
-  // }
-
-  // searchLeaves(searchQuery: string, page: string, pageSize: string): Observable<any> {
-  //   return this.http.get(environment.baseUrl + `/leave/search-leaves?query=${searchQuery}&page=${page}&pageSize=${pageSize}`);
-  // }
-  
-//}

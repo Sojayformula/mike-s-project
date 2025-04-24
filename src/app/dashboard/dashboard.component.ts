@@ -1,13 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { saveAs } from 'file-saver';
 
 
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
@@ -28,6 +29,8 @@ export class DashboardComponent{
   ];
 
   mappedData: any[] = [];
+
+
 
 
   constructor() {

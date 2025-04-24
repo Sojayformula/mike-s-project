@@ -1,0 +1,56 @@
+<div class=" bg-[#EBEBEB] min-h-screen">
+ <div class=" text-white bg-black h-[86px]  lg:mx-10">
+    <div class="flex justify-between items-center mx-20 relative top-2">
+      <div class="w-[93px]">
+          <img src="/logo.jpg">
+      </div>
+
+
+    <div class="flex gap-10">
+      <a routerLink="dashboard" 
+      routerLinkActive="bg-[#FFF] text-black" 
+      [routerLinkActiveOptions]="{ exact: false }" 
+      class="hover:bg-gray-200 bg-[#3F3F3F] text-black w-[111px] h-[36px] rounded-[32px] flex items-center justify-center transition-colors duration-300"
+      >Dashboard</a>
+
+      <a routerLink="institution" routerLinkActive="bg-[#FFF] text-black" 
+      [routerLinkActiveOptions]="{ exact: false }" 
+      class="hover:bg-gray-200 bg-[#3F3F3F] text-black w-[111px] h-[36px] rounded-[32px] flex items-center justify-center transition-colors duration-300"
+      >Institution</a>
+
+      <a routerLink="transaction" 
+      routerLinkActive="bg-[#FFF] text-black" 
+      [routerLinkActiveOptions]="{ exact: false }" 
+      class="hover:bg-gray-200 bg-[#3F3F3F] text-black w-[111px] h-[36px] rounded-[32px] flex items-center justify-center transition-colors duration-300"
+      >Transactions</a>
+
+      <a routerLink="report" 
+      routerLinkActive="bg-[#FFF] text-black" 
+      [routerLinkActiveOptions]="{ exact: false }" 
+      class="hover:bg-gray-200 bg-[#3F3F3F] text-black w-[111px] h-[36px] rounded-[32px] flex items-center justify-center transition-colors duration-300"
+      >Report</a>
+      <a routerLink="settings" 
+      routerLinkActive="bg-[#FFF] text-black" 
+      [routerLinkActiveOptions]="{ exact: false }" 
+      class="hover:bg-gray-200 bg-[#3F3F3F] text-black w-[111px] h-[36px] rounded-[32px] flex items-center justify-center transition-colors duration-300"
+      >Settings</a>
+    </div>
+     
+    <div class="flex gap-2" >
+      <p class="w-[30px] h-[30px] mt-[4px]"><img src="/Frame.png"></p>
+      <p class="w-[36px] h-[36px]"><img src="/FB.png"></p>
+    </div>
+  </div>
+  </div>
+
+  <div class="text-right mx-20 relative top-8 ">
+    <button
+      class="px-6 py-2 bg-red-500 text-white rounded hover:bg-red-600 shadow-md"
+      (click)="logout()"
+    >
+      Logout
+    </button>
+  </div>
+
+  <router-outlet></router-outlet>
+</div>

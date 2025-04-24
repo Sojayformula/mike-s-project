@@ -1,4 +1,5 @@
 
+<!-- <app-lay-out></app-lay-out> -->
 <div class="mt-10 lg:mx-20 overflow-x-hidden text-[#353535]">
 
   <div class="text-[11px] text-[#828282]">
@@ -7,6 +8,7 @@
         INSTITUTIONS
     </span>
     </div>
+
 
                   <!-- Institution and Add button section -->
     <div class="flex justify-between">
@@ -60,60 +62,13 @@
           </div>
       </div>
 
-      <!-- <div  class="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
-          <div class="bg-white rounded-lg w-full max-w-lg p-6 relative">
-          <div class="flex justify-between items-center mb-4">
-          <div></div>
-          <button class="text-gray-500 hover:text-gray-700" >×</button>
-      </div>
-
-                           
-  <h3 class="text-xl font-semibold">Add New Row</h3>
-
-  <div >
-    <form #rowForm="ngForm" (ngSubmit)="(rowForm)">
-      <div class="flex flex-col mb-4">
-        <label for="name">Name:</label>
-        <input class="border border-gray-300 rounded px-3 py-2" type="text" id="name" name="Name" required />
-      </div>
-      <div style="display: flex; flex-direction: column;">
-        <label for="phoneNo">Phone No:</label>
-        <input  style="border: 1px solid; border-radius: 5px;" type="text" id="phoneNo" name="PhoneNo"  required />
-      </div>
-      <div style="display: flex; flex-direction: column;">
-        <label for="email">Email:</label>
-        <input  style="border: 1px solid; border-radius: 5px;" type="email" id="email" name="Email" required />
-      </div>
-
-      <div style="display: flex; flex-direction: column;">
-        <label for="address">Address:</label>
-        <input  style="border: 1px solid; border-radius: 5px;" type="text" id="address" name="Address"  required />
-      </div>
-      <div style="display: flex; flex-direction: column;">
-        <label for="date">Date:</label>
-        <input style="border: 1px solid; border-radius: 5px;" type="date" id="date" name="Date"  required />
-      </div>
-      <div style="display: flex; flex-direction: column;">
-        <label for="status">Status:</label>
-        <input  style="border: 1px solid; border-radius: 5px;" type="text" id="status" name="Status"  required />
-      </div>
-      <div style="display: flex; flex-direction: column;">
-        <label for="action">Action:</label>
-        <input  style="border: 1px solid; border-radius: 5px;" type="text" id="action" name="Action"  required />
-      </div>
-      <div class="">
-      <button class="add" type="submit" [disabled]="!rowForm.form.valid" >Add Row</button>
-      <button  type="button">Cancel</button>
-      </div>
-    </form>
-  </div>
-</div> 
-</div>-->
+    
 
 
+<!-- [(ngModel)]="searchTerm"
+            (input)="filteredData()"    (ngModelChange)="Search($event)"-->
 
-
-                  <!-- All instituion and search bar section -->
+                  <!--search bar section   "findMe()"   searchTerm  (ngModelChange)="findMe($event)" -->
       <div class="mt-5 bg-white">
         <div class="flex justify-between items-center mx-5">
         <div class="">
@@ -124,93 +79,70 @@
         <div class="flex gap-2 ">
             <input 
             type="text"
-            [(ngModel)]="searchTerm"
-            (input)="filteredData()"
+            name="search"
+            [(ngModel)]="searchQuery"
+            (ngModelChange)="Search($event)"
+            
             placeholder="Search by name" 
             class="bg-[#EBEBEB] text-[#828282] border-2 rounded-lg h-[33px] w-[271px] px-3 text-[13px] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 hover:border-red-500"
-             
             />
+           
+
                               <!-- Export button -->
             <button (click)="exportTableToCSV()" class="bg-[#4393FF30] h-[33px] w-[113px] text-[13px] rounded-lg border-2 border-[#4393FF] hover:bg-[#7fb1e3]" >
               Export Data<span class=""> icon</span>
             </button>
 
-                              <!-- Filter button -->
+                              <!-- Filter modal button -->
             <button nz-button nzType="primary" (click)="openFilterModal()" class="bg-[#4393FF30] h-[33px] w-[79px] text-[13px] rounded-lg border-2 border-[#4393FF] hover:bg-[#7fb1e3]">
               Filter<span class=""> icon</span>
             </button>
            </div>
            </div>
 
-
-
-
            <nz-modal [(nzVisible)]="isFilterModalVisible" 
           nzTitle="Filter Leaves" 
           (nzOnCancel)="closeFilterModal()" 
-          [nzFooter]="modalFooter">
-  <ng-container *nzModalContent>
-    <form>
-      <div class="filter-container">
-        <nz-form-item>
-          <label for="department">Department:</label>
-          <select [(ngModel)]="filterData.department" name="department" >
-            <option value="">All Departments</option>
-            <option *ngFor="let dept of departmentOptions" [value]="dept.value">{{ dept.label }}</option>
-          </select>
-        </nz-form-item>
-
-        <div *ngIf="leaveTypeOptions.length > 0; else noLeaveTypes">
-          <!-- Dropdown with leave types -->
-          <nz-form-item>
-            <label for="leaveType">Leave Type:</label>
-            <select [(ngModel)]="filterData.leaveType" name="leaveType" (change)="applyFilter()">
-              <option value="">All Leave Types</option>
-              <option *ngFor="let type of leaveTypeOptions" [value]="type.value">{{ type.label }}</option>
-            </select>
-          </nz-form-item>
-        </div>
-        <ng-template #noLeaveTypes>
-          <p>No leave types available</p>
-        </ng-template> 
-      </div>
-    </form>
-  </ng-container>
-
-  <!-- Footer for Buttons -->
-  <ng-template #modalFooter>
-    <button nz-button (click)="closeFilterModal()">Cancel</button>
-    <button nz-button nzType="primary" (click)="applyFilters()">Apply Filter</button>
-  </ng-template>
-</nz-modal>
-
-
-                                <!-- Fliter modal -->
-       <!-- <nz-modal [(nzVisible)]="isFilterModalVisible" nzTitle="Filter Leaves" (nzOnCancel)="closeFilterModal()" [nzFooter]="null">
+          [nzFooter]="modalFooter"
+          nzClassName="custom-modal">
           <ng-container *nzModalContent>
             <form>
-            <div class="filter-container">
-              <nz-form-item>
-              <label for="department">Department:</label>
-              <select [(ngModel)]="filterData.department" name="department" (change)="applyFilter()">
-                <option value="">All Departments</option>
-                <option *ngFor="let dept of departmentOptions" [value]="dept.value">{{ dept.label }}</option>
-              </select>
-            </nz-form-item>
-            
-              <label for="leaveType">Leave Type:</label>
-              <select [(ngModel)]="filterData.leaveType" (change)="applyFilter()">
-                <option value="">All Leave Types</option>
-                <option *ngFor="let type of leaveTypeOptions" [value]="type.value">{{ type.label}}</option>
-              </select>
-            
-              <button (click)="applyFilter()">Apply Filter</button>
-            </div>
-          </form>
-          </ng-container>
-        </nz-modal> -->
+              <div class="filter-container">
+                <nz-form-item>
+                  <label for="department">Department:</label>
+                  <select [(ngModel)]="filterData.department" name="department" class="rounded-lg w-full bg-gray-100 h-8 border hover:border-red-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500">
+                    <option value="">All Departments</option>
+                    <option *ngFor="let dept of departmentOptions" [value]="dept.value">{{ dept.label }}</option>
+                  </select>
+                </nz-form-item>
 
-         
+                              <!-- Dropdown with leave types  -->
+                   <nz-form-item>
+                    <label for="department">Department:</label>
+                <select [(ngModel)]="filterData.leaveType" name="leaveType"
+                  (ngModelChange)="LeaveType($event)" class="rounded-lg w-full bg-gray-100 h-8 border hover:border-red-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500">
+                  <option value="">All Leave Types</option>
+                  <option *ngFor="let type of leaveTypeOptions" [value]="type._id">
+                  {{ type.name }}
+                  </option>
+                </select>
+              </nz-form-item>
+
+              <ng-template #noLeaveTypes>
+                  <p>No leave types available</p>
+                </ng-template>
+               
+              </div>
+            </form>
+          </ng-container>
+
+        <!-- Footer for Buttons -->
+        <ng-template #modalFooter>
+          <button nz-button (click)="closeFilterModal()">Cancel</button>
+           <button nz-button nzType="primary" (click)="applyFilters()">Apply Filter</button> 
+        </ng-template>
+      </nz-modal>   
+              
 
     <!-- *ngIf="apiData.length"
      {{item.appliedBy.personalDetails.firstName + ' ' + item.appliedBy.personalDetails.lastName}}
@@ -282,6 +214,10 @@
           </tbody>
         </table>
       </div>
+      <div>
+     
+      
+
          <!-- Handle empty data case -->
      <ng-template #noData>
       <tr>
@@ -289,112 +225,53 @@
       </tr>
     </ng-template>
     
+    
 
-    <div class="bg-[#EBEBEB]">
-    <div class="pagination">
-      <button (click)="prevPage()" [disabled]="pageIndex === 1">Previous</button>
-      <span>Page {{pageIndex}} of {{totalPages}}</span>
-      <button (click)="nextPage()" [disabled]="pageIndex >= totalPages">Next</button>
-    </div>
-  </div>
-
-
-
-    <!-- (input)="filterTable()" -->
-
-
-
- <!-- <td class="px-2 lg:px-0">
-                 <div class="text-[12px] font-semibold rounded-[2px] inline-block text-center"
-                 [ngClass]="{
-                'bg-[#1CCAB824] text-[#109688] w-[62px] h-[22px]': item.Status === 'Active',
-              }" 
-              >{{ item.Status }}</div></td>
-              <td class="px-2 lg:px-0">
-                {{ item.Action }}
-                  
-              </td> -->
-
-
-
-
-    <!-- <div  class="overflow-auto w-full m-auto md:w-[100%] text-[12px] md:text-[16px] md:m-auto">       
-      <nz-table *ngIf="listOfData.length > 0" [nzPageSize]="2" [nzData]="listOfData" [nzShowPagination]="false"
-       [nzScroll]="{ y: '230px',x:'1800px'}" class="w-[100%] md:w-[100%] md:m-auto text-[12px]">
-       <div *ngIf="listOfData.length === 0" class="border-1 border-red-400 w-[100%] h-[600px] pl-[300%] flex justify-center items-center">
-        <p>No leave requests found.</p>
-      </div>
-      <table>
-        <thead>
-          <tr class="!text-[12px] md:!text-[14px]">
-          <th nzWidth="180px">Requested by</th>
-          <th nzWidth="150px">Department</th>
-          <th nzWidth="170px">Date Requested</th>
-          <th nzWidth="170px">Leave Type</th>
-          <th nzWidth="170px">Start Date</th>
-          <th nzWidth="170px">End Date</th>
-          <th nzWidth="110px">Total Days</th>
-          <th nzWidth="190px">Approved By</th>
-          <th nzWidth="150px">Status</th>
-          <th nzWidth="120px">Action</th>
-          </tr>
-        </thead>
-        <tbody class="!text-[12px] md:!text-[14px]">
-          <tr *ngFor="let leave of apiData">
-          <td>{{leave.appliedBy.personalDetails.firstName + ' ' + leave.appliedBy.personalDetails.lastName}}</td>
-          <td>{{leave.appliedBy.department.name || 'N/A'}}</td>
-          <td>{{leave.createdAt | date:'dd-MM-yyyy'}}</td>
-          <td>{{leave.leaveType.name}}</td>
-          <td>{{leave.startDate | date:'dd-MM-yyyy'}}</td>
-          <td>{{leave.endDate | date:'dd-MM-yyyy'}}</td>
-          <td>{{leave.totalDays}}</td>
-          <td>{{leave.decidedBy || 'N/A'}}</td>
-          <td>
-            <div [ngStyle]="{'background-color':leave.leaveStatus === 'APPROVED' ? '#E9FFEF' :
-          leave.leaveStatus === 'PENDING' ? 'rgba(178, 113, 23, 0.06)' :
-          leave.leaveStatus === 'DECLINED' ? 'rgba(178, 23, 23, 0.05)' : '',
-          'color':leave.leaveStatus === 'APPROVED' ? '#17B26A' : 
-          leave.leaveStatus === 'PENDING' ? '#B27117' :
-          leave.leaveStatus === 'DECLINED' ? '#B21717' : ''}"
-          class="flex justify-center items-center h-[25px] w-[100px] rounded-[10px] gap-x-2">
-              <i class="fa-solid fa-circle-check text-[12px]"></i>
-              <span
-                class="text-[12px] font-semibold">{{leave.leaveStatus}}</span>
-            </div>
-          </td>
-            <td>
-              <a nz-dropdown nzTrigger="click" (click)="storeId(leave?._id)" [nzDropdownMenu]="menu">
-                <i class="fa-solid fa-ellipsis-vertical text-[#9E9D9D] text-[20px]"></i>
-          <nz-icon/>  </a>
-            </td> 
-          </tr>
-          </tbody>
-          </table>
-      </nz-table>
-    </div>  
   
-      <div class="flex justify-between items-center p-2">
-        <div class="flex items-center w-[37%] text-[14px]">
-        <div class="pagination-info w-[110%] md:text-[14px] md:w-[50%]">
-          Showing {{ getStartItem() }} to {{ getEndItem() }} of {{ totalItems }} items
-          
-        </div>
-        <div>
-          Choose Number of Items:
-          <select id="pageSize" [(ngModel)]="page" (change)="onPageSizeChange()"
-      class="border border-gray-300 rounded px-2 py-1 text-[10px] md:text-[14px]">
-      <option *ngFor="let size of pageSizeOptions" [value]="size">{{ size }}</option>
-    </select>
-        </div>
-      </div>
+    <p class="mt-4">Count: {{ count() }}</p>
+    <p>Double: {{ doubleCount() }}</p>
+    <button (click)="increment()" class="bg-green-500 rounded-sm h-8 w-20 text-white">Increment</button>&nbsp;
+    <button (click)="decrement()" class="bg-purple-500 rounded-sm h-8 w-20 text-white">Decrement</button>
+    
+ 
+
+    <!-- <button [disabled]="!formValid()" (click)="submitForm()">Submit</button> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- <select [(ngModel)]="filterData.department" (change)="onDepartmentChange(filterData.department)">
+    <option value="">Select Department</option>
+    <option *ngFor="let dept of departmentOptions" [value]="dept._id">{{ dept.name }}</option>
+  </select>
   
-      <div class="w-[190%] md:w-[240%] lg:w-fit !text-[10px] md:!text-[16px]">
-        <nz-pagination
-        [nzPageIndex]="pageIndex"
-        [nzPageSize]="page"
-        [nzTotal]="100"
-        (nzPageIndexChange)="onPageChange($event)">
-      </nz-pagination>
-    </div>
-  </div>  
-  </div> -->
+      Leave Type Filter
+  <select [(ngModel)]="filterData.leaveType" (change)="LeaveType(filterData.leaveType)">
+    <option value="">Select Leave Type</option>
+    <option *ngFor="let type of leaveTypeOptions" [value]="type._id">{{ type.name }}</option>
+  </select>
+  
+  Search Bar
+  <input type="text" [(ngModel)]="searchQuery" (input)="searchLeaves()" placeholder="Search..." />
+
+  
+   -->
+
+  
+
+  
+  
+
+
+
+   

@@ -8,7 +8,7 @@ import en from '@angular/common/locales/en';
 import { FormsModule } from '@angular/forms';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { apiInterceptorInterceptor } from './middleares/api-interceptor.interceptor';
+import { apiInterceptorInterceptor } from './middlewares/api-interceptor.interceptor';
 
 registerLocaleData(en);
 
