@@ -9,17 +9,20 @@ import { FormsModule } from '@angular/forms';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { apiInterceptorInterceptor } from './middlewares/api-interceptor.interceptor';
+import { appRouting } from './app.routes';
 
 registerLocaleData(en);
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes), provideNzI18n(en_US), 
+    provideRouter(routes),
+     provideNzI18n(en_US), 
     importProvidersFrom(FormsModule), 
     provideAnimationsAsync(), 
     provideHttpClient(
       withInterceptors([apiInterceptorInterceptor])
     ),
+    
   ]
 };

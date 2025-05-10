@@ -1,6 +1,6 @@
 
 <div class="flex justify-center">
-<form #userForm="ngForm" (ngSubmit)="submit(userForm)" class="border border-black rounded-lg lg:mx-20 mx-2 mt-20 h-[25rem] [22rem] bg-white lg:w-[30rem]">
+<!-- <form #userForm="ngForm" (ngSubmit)="submit(userForm)" class="border border-black rounded-lg lg:mx-20 mx-2 mt-20 h-[25rem] [22rem] bg-white lg:w-[30rem]">
     <h1 class="text-center relative top-10 text-2xl font-bold">Sign In</h1>
     <div class="mx-10 space-y-4 relative top-20">
     <div class="flex flex-col">
@@ -50,21 +50,30 @@
       </div>
 
     </div>
-</form>
+</form> -->
 
 
 
 
-<!-- <form (submit)="submitForm(); $event.preventDefault()"   class="p-4 border w-80">
+ <div class="rounded-lg">
+  <div class="relative top-[8rem]">
+  <p *ngIf="successMessage()" class="text-green-600 mt-">
+    {{ successMessage() }}
+  </p>
+  
+  <div *ngIf="errorMessage()" [innerHTML]="errorMessage()" class="flex justify-center items-center text-red-500 bg-red-100 p-2 rounded h-12 "></div>
+
+
+
+</div>
+
+<form (submit)="submitForm(); $event.preventDefault()"  class="p-10 border w-80 mt-40 rounded-lg">
   <label for="email">Email:</label>
   <input
-    id="email"
+   id="email"
     type="email"
     [value]="email()"
-    
-    (input)="updateEmailFromEvent($event)"
-
-
+    (input)="updateEmail($event)"
     class="border p-1 w-full mt-1"
   />
   <p *ngIf="!isValidEmail()" class="text-red-500 text-sm">Invalid email.</p>
@@ -74,9 +83,7 @@
     id="password"
     type="password"
     [value]="password()"
-    (input)="updatePasswordFromEvent($event)"
-    
-
+    (input)="updatePassword($event)"
     class="border p-1 w-full mt-1"
   />
   <p *ngIf="!isValidPassword()" class="text-red-500 text-sm">
@@ -86,22 +93,33 @@
   <button
     type="submit"
     [disabled]="!isFormValid() || isLoading()"
-    class="bg-blue-500 text-white px-4 py-1 mt-4 w-full"
+    class="bg-gradient-to-b from-blue-400 via-blue-600 to-blue-800 text-white px-4 py-1 mt-4 w-full"
   >
-    {{ isLoading() ? 'Logging in...' : 'Login' }}
+  Sign In
   </button>
 
-  <p *ngIf="successMessage()" class="text-green-600 mt-2">
-    {{ successMessage() }}
-  </p>
 
-  <p *ngIf="errorMessage()" class="text-red-500 mt-2">
-    {{ errorMessage() }}
-  </p>
+
+  <ng-container *ngIf="isLoading();">
+    <div *ngIf="isLoading" class="mt-6 relative top-4" ngClass="flex justify-center">
+      <mat-spinner [diameter]="50"></mat-spinner>
+    </div>
+  </ng-container>
+
 </form>
- -->
+
+
+</div> 
+
+
 
 
 
 </div>
+
+
+ <!-- {{ isLoading() ? 'Logging in... ' : 'Login' }}-->
+    <!-- <p *ngIf="errorMessage()" class="text-red-500 ">
+    {{ errorMessage() }}
+  </p> -->
 

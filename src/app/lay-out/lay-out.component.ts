@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
-import { AuthService } from '../routeguardSer/auth-service.guard';
+//import { AuthService } from '../routeguardSer/auth-service.guard';
 
 @Component({
   selector: 'app-lay-out',
@@ -12,15 +12,34 @@ import { AuthService } from '../routeguardSer/auth-service.guard';
 })
 export class LayOutComponent {
 
-  constructor(private router: Router, private authService:AuthService) {}
+  constructor(private router: Router) {}
+  
 
+  logout() {
+    localStorage.removeItem('token'); 
+    this.router.navigate(['signIn']);
+  }
 
-logout(){
-this.authService.logout()
-this.router.navigate(['/signIn']);
+  // logout() {
+  //   localStorage.removeItem('isUserLogin');
+  //   this.router.navigate(['/signIn']);
+  // }
+  
+
 }
 
-}
+
+
+
+
+
+
+
+// logout(){
+// this.authService.logout()
+// this.router.navigate(['/signIn']);
+// }
+
 
     // alternative debounce
 // onInput(value:string){
@@ -30,12 +49,3 @@ this.router.navigate(['/signIn']);
 //    },300)
 // }
 
-  // logout() {
-  //   localStorage.removeItem('token'); 
-  //   this.router.navigate(['signIn']);
-  // }
-
-// logout(){
-//   localStorage.removeItem('user'); 
-//   this.router.navigate(['/signIn']);
-// }

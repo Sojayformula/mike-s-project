@@ -1,0 +1,533 @@
+<section *ngIf="userRole === 'HR' || 'MANGER'" class=" w-screen h-[90vh] bg-[#F8FAFC]">
+    <div class="border border-gray-200 bg-white rounded-lg h-[95vh] md:h-[90vh] w-[90%] m-auto mt-8">
+        <div class="flex justify-between p-4 ">
+            <div><p class="font-bold text-lg md:font-bold md:text-xl">Employees</p></div>
+            <div *ngIf="userRole === 'HR'" class="text-white w-[30%] h-[70%] md:h-[40%] text-[10px] p-1 md:w-[12%]">
+                <button routerLink="/app-layout/layout/employee/newstaff" class="flex gap-x-1 cursor-pointer p-1 justify-center items-center md:text-center content-center 
+                  w-[90px] h-[30px] md:h-[48px] md:w-[144px] bg-gradient-to-b from-[#122C69] to-[#1D0434] rounded-md md:rounded-lg lg:rounded-lg">
+                    <img src="/assets/images/Vector.png" class="md:w-[24px] md:h-[23px] w-[19px] h-[17px] pt-1 p-1 md:p-1">
+                    <div class="text-[11px] md:text-[15px] md:p-1">New Staff</div>
+                </button>
+                
+          </div>
+        </div>
+        <div class="flex justify-between p-4 mb-1">
+         <div class="flex"> 
+            <div class="hidden md:flex justify-between  border border-[#ECECEC] rounded-lg w-fit bg-[#D9D9D942] h-[6vh] flex gap-x-10 items-center ">
+            <button (click)="filterEmployees('All')"
+            [ngClass]="{
+                'text-white bg-gradient-to-b from-[#122C69] to-[#1D0434]': filterCriteria.employeeStatus === '',
+                'text-[#838383]': filterCriteria.employeeStatus !== ''
+              }"
+           
+            
+              class="w-[100px] p-2 h-[6vh] cursor-pointer rounded-[8px]" >All</button>
+
+
+            <button (click)="filterEmployees('Onleave')"
+            [ngClass]="{
+                'text-white bg-gradient-to-b from-[#122C69] to-[#1D0434]': filterCriteria.employeeStatus === 'Onleave',
+                'text-[#838383]': filterCriteria.employeeStatus !== 'Onleave'
+              }"
+              class="w-[30%] p-2 h-[6vh] cursor-pointer rounded-[8px]">Onleave</button>
+
+
+            <button (click)="filterEmployees('Onduty')"
+            [ngClass]="{
+                'text-white bg-gradient-to-b from-[#122C69] to-[#1D0434]': filterCriteria.employeeStatus === 'Onduty',
+                'text-[#838383]': filterCriteria.employeeStatus !== 'Onduty'
+              }"
+              class="w-[30%]  p-2 h-[6vh] cursor-pointer rounded-[8px]">Onduty</button>
+         </div>
+          <div class="md:hidden wrapper"> 
+               <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu2">
+                <i class="fa-solid fa-ellipsis-vertical text-[#9E9D9D]"></i>
+                </a>
+             <nz-dropdown-menu #menu2="nzDropdownMenu">
+                    <ul nz-menu class="w-[120px] items-center">
+
+                       <li (click)="filterEmployees('All')"  [ngClass]="{
+                        'text-white bg-gradient-to-b from-[#122C69] to-[#1D0434]': filterCriteria.employeeStatus === '',
+                        'text-[#838383]': filterCriteria.employeeStatus !== ''
+                         }" class="h-[3.5vh]"  nz-menu-item>All</li>
+
+                        <li nz-menu-divider></li>
+
+                        <li  (click)="filterEmployees('Onleave')"
+                        [ngClass]="{
+                        'text-white bg-gradient-to-b from-[#122C69] to-[#1D0434]': filterCriteria.employeeStatus === 'Onleave',
+                        'text-[#838383]': filterCriteria.employeeStatus !== 'Onleave'
+                          }" class="text-center" nz-menu-item>
+                           Onleave
+                        </li>
+
+                            <li nz-menu-divider></li>
+
+                        <li (click)="filterEmployees('Onduty')"
+                        [ngClass]="{
+                        'text-white bg-gradient-to-b from-[#122C69] to-[#1D0434]': filterCriteria.employeeStatus === 'Onduty',
+                        'text-[#838383]': filterCriteria.employeeStatus !== 'Onduty'
+                         }" nz-menu-item> 
+                           On-Duty
+                        </li>
+                    </ul>
+             </nz-dropdown-menu>
+            </div> 
+            </div>
+            <div *ngIf="selectedDepartmentName" class="hidden md:flex border w-[180px] ml-2 mt-2 text-white border bg-gradient-to-b from-blue-900 to-[rgb(29,4,52)] p-2 rounded-2xl h-[4vh] flex items-center justify-between">
+                {{ selectedDepartmentName }}
+                <button (click)="clearSelection()" class="text-white cursor-pointer hover:text-gray-200">
+                <i class="fa fa-times-circle"></i>
+                </button>
+            </div>
+        
+           
+                                            <!-- SEARCH INPUT AND FILTER BUTTON -->
+            <div class="flex space-x-2 ml-[20%] md:mr-[1.5%]">
+                <div class="text-gray-400 items-center w-[160px] md:w-[302px] flex h-[35px] md:h-[60%] border border-gray-300 rounded-lg bg-gray-100">
+                    <i class="fa-solid fa-magnifying-glass text-gray-500 p-1 md:pt-2"></i>
+                    <input  type="text" (input)="filterTable()" [(ngModel)]="searchQuery"  placeholder="Search Staff" class=" w-full md:h-full md:mb-3 rounded-lg focus focus:outline-none">
+                </div>
+                <div *ngIf="userRole === 'HR'" class="text-gray-400 w-[33%] md:w-[88px] h-[35px] md:h-[60%] border border-gray-300 rounded-md md:rounded-lg bg-white py-2 px-3 md:p-3">
+                    <button (click)="openFilter()" class="flex cursor-pointer gap-x-2 md:gap-2 ">
+                       <img src="/assets/images/Filter.png" class="mb-[35%] md:w-[30px] w-[15px]">
+                        <p class="-ml-[15%] text-[12px] md:text-[18px]">Filter</p>
+                    </button>
+                </div> 
+         </div>
+        </div> 
+
+                                 <!--FILTER MODAL  -->
+                                 
+         <nz-modal [(nzVisible)]="isFilterOpen" nzTitle="Filter" 
+        (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()" [nzFooter]="null">
+        <ng-container *nzModalContent>
+            
+            <div class="grid grid-cols-1 w-full border-gray-200 bg-white">
+            <form nzform class="m-auto p-2 max-w-full">
+                <div class="w-full">
+                <nz-form-item class="flex flex-col">
+                    <nz-select   name="department"
+  [(ngModel)]="filterCriteria.department"
+  nzShowSearch
+  nzAllowClear
+  nzPlaceHolder="Select Department"
+  class="w-full max-w-[300px] md:max-w-[400px]"
+>
+  <nz-option nzValue="ALL" nzLabel="ALL"></nz-option>
+  <nz-option 
+    *ngFor="let dept of department" 
+    [nzValue]="dept._id" 
+    [nzLabel]="dept.name"
+  ></nz-option>
+</nz-select>
+                    <!-- <label for="department" class="block text-gray-500 text-sm font-semibold">Department</label>
+                    <select [(ngModel)]="filterCriteria.department" name="department" class="mt-1 p-3 border border-gray-300 bg-gray-50 rounded-lg w-[300px]  md:w-[400px] lg:w-[400px] focus:outline-none focus:ring-2 focus:ring-blue-500" nz-select>
+                       <option value="ALL">ALL</option>
+                        <option *ngFor="let dept of department" [value]="dept._id">
+                        {{ dept.name }}
+                      </option> 
+                    </select> -->
+              </nz-form-item>
+                </div> 
+           <div class="flex gap-x-2 border-t-3 py-2 border-gray-300 items-end">
+            <button type="button" class="mb-[5%] w-[135px] md:w-[170px] text-white p-3 rounded-lg hover:opacity-80 bg-red-200 text-white">
+                <span class="close-btn text-white">Cancel</span>
+              </button>
+              <button (click)="filterDept()" type="submit" class="mb-5 w-[135px] md:w-[170px] text-white border bg-gradient-to-b from-blue-900 to-[rgb(29,4,52)] p-3 rounded-lg hover:opacity-80">
+                <span class=" text-white">Filter</span>
+              </button>
+           </div>
+         
+            </form>
+            </div>
+        
+        </ng-container>
+        </nz-modal> 
+        
+        <div class="overflow-x-auto">
+            <nz-spin nzType="info" *ngIf="Listofdata.length ===0" nzTip="Loading..." class="h-[300px] ">
+            </nz-spin> 
+            <div *ngIf="!isLoading && Listofdata.length === 0" class="flex flex-col text-[16px] h-[100px] pl-[45%]">
+                <div>
+                    <img src="/assets/images/folder.png" alt="" class="h-[60px] w-[60px] ml-8">                </div>
+                   <div>No employees found.</div>
+              </div>
+       <nz-table *ngIf="!isLoading && Listofdata.length > 0" [nzPageSize]="10"  [nzScroll]="{ y: '350px',x:'1200px' }" [nzData]="Listofdata" [nzShowPagination]="false" class="w-[100%] md:w-[100%] md:m-auto text-[10px]">
+        <thead>
+              <tr>
+                <th nzWidth="125px">Employee ID</th>
+                <th nzWidth="52px"></th>
+                <th nzWidth="315px">Full name</th>
+                 <th nzWidth="150px">Employment type</th>
+                <th nzWidth="110px">Gender</th>
+                <th nzWidth="130px">Department</th>
+                <th nzWidth="250px">Job Title</th>
+                <th nzWidth="155px">Role</th>
+                 <th nzWidth="110px">Status</th> 
+                <th nzWidth="120px">Birthday</th>
+                <th nzWidth="150px">Leave Balance</th>
+                <th *ngIf="userRole === 'HR'" nzWidth="150px">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let element of Listofdata ">
+                <td>#{{element?.employmentDetails?.staffId}}</td>
+                <td>
+                    <div class="border border-[#1D0434] bg-[#E9EAEB] h-[4vh] w-[27px] md:h-[5vh] md:w-[35px] rounded-[60px] pt-3" ></div>
+                </td>
+                <td>
+                  <div class="flex flex-col gap-[1px]">   
+                        <div class="text-[#181D27] font-medium">{{element?.personalDetails?.firstName}} {{element?.personalDetails?.lastName}} </div>
+                        <div class="text-[#535862] font-medium">{{element?.email}}</div>
+                </div> 
+                </td>
+                <td>{{element?.employmentDetails?.employmentType}}</td>
+                <td>{{element?.personalDetails?.gender}}</td>
+                <td>{{element?.department?.name}}</td>
+                <td>{{element?.employmentDetails?.jobTitle }}</td>
+                <td>{{element.role.name}}</td>
+                <td>
+            <div
+    [ngStyle]="{
+      'background-color': element?.employmentDetails?.employmentStatus === 'Onleave' ? '#FFF8EA' : '#E9FFEF',
+      'color': element?.employmentDetails?.employmentStatus === 'Onleave' ? '#B27E17' : '#17B26A'
+    }"
+    class="flex justify-center items-center text-center h-[22px] w-[79px] gap-1 rounded-[6px]"
+  >
+    <i class="fa-solid fa-circle text-[9px]"></i>
+    <span class="text-[12px] font-semibold">
+      {{ element?.employmentDetails?.employmentStatus }}
+    </span>
+  </div>
+                </td>
+
+                <td>{{element.personalDetails.birthday}}</td>
+                <td>{{element.leaveBalance}}</td>
+                                                       <!--ACTIONS DROPDOWN MENU -->
+                 <td *ngIf="userRole === 'HR'">
+                     <button (click)="getEmployeeDetails(element._id)" routerLink="/app-layout/layout/employee/personaldetails"  class="border border-blue-800 w-[85%] p-1 rounded-xl !text-blue-800 hover:bg-blue-800 hover:!text-white cursor-pointer"> View <i class="fas fa-eye ml-2"></i> </button>
+                    
+                </td> 
+              </tr>
+            </tbody>
+          </nz-table>
+          <!-- <div *ngIf="!isLoading && Listofdata.length === 0">Loading employees....</div> -->
+        </div>
+
+        <!-- <nz-modal [(nzVisible)]="openEdit" nzTitle="Edit Employee Data" (nzOnCancel)="handleClose()" (nzOnOk)="handleOpen()" [nzFooter]="null">
+            <ng-container *nzModalContent>
+                <form>
+                    <div class="mt-6 grid grid-cols-1 max-h-[400px] overflow-y-scroll  gap-4 w-full">
+                        <nz-form-item>
+                        <label for="name" class="block text-gray-500 text-sm font-semibold">Full name
+                        </label>
+                        <input type="text" id="name" name="name" required class="mt-1 p-3 border border-gray-300 bg-gray-50 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+            
+                        </nz-form-item>
+            
+                        <nz-form-item>
+                            <label for="name" class="block text-gray-500 text-sm font-semibold">Birthday
+                            </label>
+                            <input type="date" id="name" name="name" required class="mt-1 p-3 border border-gray-300 bg-gray-50 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ">  
+                        </nz-form-item>
+
+                        <nz-form-item>
+                            <label for="name" class="block text-gray-500 text-sm font-semibold">Age
+                            </label>
+                            <input type="number" id="name" name="name" required class="mt-1 p-3 border border-gray-300 bg-gray-50 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ">  
+                        </nz-form-item>
+
+                        <nz-form-item>
+                            <label for="name" class="block text-gray-500 text-sm font-semibold">Gender
+                            </label>
+                            <input type="text" id="name" name="name" required class="mt-1 p-3 border border-gray-300 bg-gray-50 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ">  
+                        </nz-form-item>
+
+                        <nz-form-item>
+                            <label for="name" class="block text-gray-500 text-sm font-semibold">Email
+                            </label>
+                            <input type="text" id="name" name="name" required class="mt-1 p-3 border border-gray-300 bg-gray-50 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ">  
+                        </nz-form-item>
+
+                        <nz-form-item>
+                            <label for="name" class="block text-gray-500 text-sm font-semibold">Phone
+                            </label>
+                            <input type="text" id="name" name="name" required class="mt-1 p-3 border border-gray-300 bg-gray-50 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ">  
+                        </nz-form-item>
+
+                        <nz-form-item>
+                            <label for="name" class="block text-gray-500 text-sm font-semibold">Work Email
+                            </label>
+                            <input type="text" id="name" name="name" required class="mt-1 p-3 border border-gray-300 bg-gray-50 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ">  
+                        </nz-form-item>
+
+                        <nz-form-item>
+                            <label for="name" class="block text-gray-500 text-sm font-semibold">Nationality
+                            </label>
+                            <input type="text" id="name" name="name" required class="mt-1 p-3 border border-gray-300 bg-gray-50 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ">  
+                        </nz-form-item>
+
+                        <nz-form-item>
+                            <label for="name" class="block text-gray-500 text-sm font-semibold">Home Address
+                            </label>
+                            <input type="text" id="name" name="name" required class="mt-1 p-3 border border-gray-300 bg-gray-50 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ">  
+                        </nz-form-item>
+
+                        <nz-form-item>
+                            <label for="name" class="block text-gray-500 text-sm font-semibold">Social Security Number
+                            </label>
+                            <input type="text" id="name" name="name" required class="mt-1 p-3 border border-gray-300 bg-gray-50 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ">  
+                        </nz-form-item>
+
+                                                         
+                        <nz-form-item>
+                            <label for="name" class="block text-gray-500 text-sm font-semibold">Marital Status
+                            </label>
+                            <input type="text" id="name" name="name" required class="mt-1 p-3 border border-gray-300 bg-gray-50 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ">  
+                        </nz-form-item>
+
+                        <nz-form-item>
+                            <label for="name" class="block text-gray-500 text-sm font-semibold">Name of Spouse
+                            </label>
+                            <input type="text" id="name" name="name" required class="mt-1 p-3 border border-gray-300 bg-gray-50 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ">  
+                        </nz-form-item>
+
+                        <nz-form-item>
+                            <label for="name" class="block text-gray-500 text-sm font-semibold">Phone
+                            </label>
+                            <input type="text" id="name" name="name" required class="mt-1 p-3 border border-gray-300 bg-gray-50 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ">  
+                        </nz-form-item>
+
+                        <nz-form-item>
+                            <label for="name" class="block text-gray-500 text-sm font-semibold">Email
+                            </label>
+                            <input type="text" id="name" name="name" required class="mt-1 p-3 border border-gray-300 bg-gray-50 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ">  
+                        </nz-form-item>
+
+                        <nz-form-item>
+                            <label for="name" class="block text-gray-500 text-sm font-semibold">Marrriage certificate
+                            </label>
+                            <input type="file" id="name" name="name" required class="mt-1 p-3 border border-gray-300 bg-gray-50 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ">  
+                        </nz-form-item>
+
+                        <nz-form-item>
+                            <label for="name" class="block text-gray-500 text-sm font-semibold">Number of children
+                            </label>
+                            <input type="number" id="name" name="name" required class="mt-1 p-3 border border-gray-300 bg-gray-50 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ">  
+                        </nz-form-item>
+
+                        <nz-form-item>
+                            <label for="name" class="block text-gray-500 text-sm font-semibold">Child Name
+                            </label>
+                            <input type="text" id="name" name="name" required class="mt-1 p-3 border border-gray-300 bg-gray-50 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ">  
+                        </nz-form-item>
+
+                        <nz-form-item>
+                            <label for="name" class="block text-gray-500 text-sm font-semibold">Date of Birth
+                            </label>
+                            <input type="text" id="name" name="name" required class="mt-1 p-3 border border-gray-300 bg-gray-50 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ">  
+                        </nz-form-item>
+
+                        <nz-form-item>
+                            <label for="name" class="block text-gray-500 text-sm font-semibold">Birth Certificate
+                            </label>
+                            <input type="file" id="name" name="name" required class="mt-1 p-3 border border-gray-300 bg-gray-50 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ">  
+                        </nz-form-item>
+
+                        <nz-form-item>
+                            <label for="name" class="block text-gray-500 text-sm font-semibold">Child Name
+                            </label>
+                            <input type="text" id="name" name="name" required class="mt-1 p-3 border border-gray-300 bg-gray-50 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ">  
+                        </nz-form-item>
+
+                        <nz-form-item>
+                            <label for="name" class="block text-gray-500 text-sm font-semibold">Date of Birth
+                            </label>
+                            <input type="text" id="name" name="name" required class="mt-1 p-3 border border-gray-300 bg-gray-50 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ">  
+                        </nz-form-item>
+
+                        <nz-form-item>
+                            <label for="name" class="block text-gray-500 text-sm font-semibold">Birth certificate
+                            </label>
+                            <input type="file" id="name" name="name" required class="mt-1 p-3 border border-gray-300 bg-gray-50 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ">  
+                        </nz-form-item>
+
+                                               
+                        <nz-form-item>
+                            <label for="name" class="block text-gray-500 text-sm font-semibold">Name
+                            </label>
+                            <input type="text" id="name" name="name" required class="mt-1 p-3 border border-gray-300 bg-gray-50 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ">  
+                        </nz-form-item>
+
+                        <nz-form-item>
+                            <label for="name" class="block text-gray-500 text-sm font-semibold">Relationship
+                            </label>
+                            <input type="text" id="name" name="name" required class="mt-1 p-3 border border-gray-300 bg-gray-50 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ">  
+                        </nz-form-item>
+
+                        <nz-form-item>
+                            <label for="name" class="block text-gray-500 text-sm font-semibold">Phone
+                            </label>
+                            <input type="text" id="name" name="name" required class="mt-1 p-3 border border-gray-300 bg-gray-50 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ">  
+                        </nz-form-item>
+
+                        <nz-form-item>
+                            <label for="name" class="block text-gray-500 text-sm font-semibold">Email
+                            </label>
+                            <input type="text" id="name" name="name" required class="mt-1 p-3 border border-gray-300 bg-gray-50 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ">  
+                        </nz-form-item>
+
+                         
+                          <nz-form-item>
+                            <label for="name" class="block text-gray-500 text-sm font-semibold">Job Title
+                            </label>
+                            <input type="text" id="name" name="name" required class="mt-1 p-3 border border-gray-300 bg-gray-50 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ">  
+                        </nz-form-item>
+
+                        <nz-form-item>
+                            <label for="name" class="block text-gray-500 text-sm font-semibold">Department
+                            </label>
+                            <input type="text" id="name" name="name" required class="mt-1 p-3 border border-gray-300 bg-gray-50 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ">  
+                        </nz-form-item>
+
+                        <nz-form-item>
+                            <label for="name" class="block text-gray-500 text-sm font-semibold">Location
+                            </label>
+                            <input type="text" id="name" name="name" required class="mt-1 p-3 border border-gray-300 bg-gray-50 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ">  
+                        </nz-form-item>
+
+                        <nz-form-item>
+                            <label for="name" class="block text-gray-500 text-sm font-semibold">Hire Date
+                            </label>
+                            <input type="text" id="name" name="name" required class="mt-1 p-3 border border-gray-300 bg-gray-50 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ">  
+                        </nz-form-item>
+
+                        <nz-form-item>
+                            <label for="name" class="block text-gray-500 text-sm font-semibold">Role
+                            </label>
+                            <input type="text" id="name" name="name" required class="mt-1 p-3 border border-gray-300 bg-gray-50 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ">  
+                        </nz-form-item>
+
+                                                      
+                        <nz-form-item>
+                            <label for="name" class="block text-gray-500 text-sm font-semibold">School Name
+                            </label>
+                            <input type="text" id="name" name="name" required class="mt-1 p-3 border border-gray-300 bg-gray-50 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ">  
+                        </nz-form-item>
+
+                        <nz-form-item>
+                            <label for="name" class="block text-gray-500 text-sm font-semibold">Program of Study
+                            </label>
+                            <input type="text" id="name" name="name" required class="mt-1 p-3 border border-gray-300 bg-gray-50 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ">  
+                        </nz-form-item>
+
+                        <nz-form-item>
+                            <label for="name" class="block text-gray-500 text-sm font-semibold">Start Date
+                            </label>
+                            <input type="text" id="name" name="name" required class="mt-1 p-3 border border-gray-300 bg-gray-50 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ">  
+                        </nz-form-item>
+
+                        <nz-form-item>
+                            <label for="name" class="block text-gray-500 text-sm font-semibold">End Date
+                            </label>
+                            <input type="text" id="name" name="name" required class="mt-1 p-3 border border-gray-300 bg-gray-50 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ">  
+                        </nz-form-item>
+
+                        <nz-form-item>
+                            <label for="name" class="block text-gray-500 text-sm font-semibold">Degree
+                            </label>
+                            <input type="file" id="name" name="name" required class="mt-1 p-3 border border-gray-300 bg-gray-50 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ">  
+                        </nz-form-item>
+
+                        <nz-form-item>
+                            <label for="name" class="block text-gray-500 text-sm font-semibold">School Name (SHS)
+                            </label>
+                            <input type="text" id="name" name="name" required class="mt-1 p-3 border border-gray-300 bg-gray-50 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ">  
+                        </nz-form-item>
+
+                        <nz-form-item>
+                            <label for="name" class="block text-gray-500 text-sm font-semibold">Program of Study
+                            </label>
+                            <input type="text" id="name" name="name" required class="mt-1 p-3 border border-gray-300 bg-gray-50 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ">  
+                        </nz-form-item>
+
+                        <nz-form-item>
+                            <label for="name" class="block text-gray-500 text-sm font-semibold">Start Date
+                            </label>
+                            <input type="text" id="name" name="name" required class="mt-1 p-3 border border-gray-300 bg-gray-50 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ">  
+                        </nz-form-item>
+
+                        <nz-form-item>
+                            <label for="name" class="block text-gray-500 text-sm font-semibold">End Date
+                            </label>
+                            <input type="text" id="name" name="name" required class="mt-1 p-3 border border-gray-300 bg-gray-50 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ">  
+                        </nz-form-item>
+
+                        <nz-form-item>
+                            <label for="name" class="block text-gray-500 text-sm font-semibold">Wassce Certificate
+                            </label>
+                            <input type="file" id="name" name="name" required class="mt-1 p-3 border border-gray-300 bg-gray-50 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ">  
+                        </nz-form-item>
+
+                    </div>
+                  </form>
+
+            </ng-container>
+         </nz-modal>  -->
+
+                    
+        <!-- PAGINATION -->
+  <div class="hidden md:flex md:justify-between md:items-center md:px-4 lg:flex lg:justify-between lg:items-center lg:px-4">
+    <div class="flex w-[80%] items-center md:w-[70%] lg:w-[40%]">
+        <div class="hidden md:flex pagination-info w-[80%] text-[10px] md:text-[14px] md:w-[70%] lg:w-[40%]">
+            Showing {{ getStartItem() }} to {{ getEndItem() }} of {{ totalItems }} items 
+          </div>
+      
+          <div class="hidden md:flex w-[80%] text-[10px] md:text-[14px] md:w-[70%] lg:w-[40%] items-center space-x-2">
+              <span class=" text-sm">Choose number of items</span>
+              <select (change)="onPageSizeChange($event)" class="border border-[#ECECEC] rounded p-1 cursor-pointer focus:outline-none mt-2 focus:ring-1 focus:ring-blue-500">
+                <option *ngFor="let size of pageSizeOptions" [value]="size" [selected]="size === pageSize">
+                  {{ size }}
+                </option>
+              </select>
+          </div>
+    </div>
+
+    <div class="w-[220%] md:w-[50%] lg:w-[30%] !text-[10px] md:text-[16px]">
+      <nz-pagination 
+        [(nzPageIndex)]="pageIndex"
+        [(nzPageSize)]="pageSize"
+        [nzTotal]="totalItems"
+        (nzPageIndexChange)="onPageChange($event)">
+      </nz-pagination>
+   </div>
+</div>
+<div class="md:hidden flex justify-between p-3">
+    <div class="flex w-[80%] items-center">
+        <div class="hidden md:block pagination-info w-[80%] text-[10px]">
+            Showing {{ getStartItem() }} to {{ getEndItem() }} of {{ totalItems }} items 
+          </div>
+      
+          <div class="hidden md:flex lg:flex w-[80%] text-[10px] items-center space-x-2">
+               <!-- <span class=" text-sm">Choose number of items</span>  -->
+              <select (change)="onPageSizeChange($event)" class="border border-[#ECECEC] rounded p-1 cursor-pointer focus:outline-none mt-2 focus:ring-1 focus:ring-blue-500">
+                <option *ngFor="let size of pageSizeOptions" [value]="size" [selected]="size === pageSize">
+                  {{ size }}
+                </option>
+              </select>
+          </div>
+    </div>
+
+    <div class="w-[80%] h-[12px] !text-sm">
+        <nz-pagination
+          [(nzPageIndex)]="pageIndex"
+          [(nzPageSize)]="pageSize"
+          [nzTotal]="totalItems"
+          (nzPageIndexChange)="onPageChange($event)">
+        </nz-pagination>
+     </div>
+
+</div>
+    </div>
+</section>

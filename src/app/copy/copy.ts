@@ -949,3 +949,243 @@ export class AuthenticationServiceService {
   //   this.isFilterModalVisible = false; 
   // }
 
+
+  ///^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.email())
+
+  // updatePassword(value: string) {
+    //   this.password.set(value);
+    //   this.successMessage.set('');
+    //   this.errorMessage.set('');
+    // }
+
+
+    
+//  fetchFilter:string = '';
+//   fetchLeaveType(): void{
+//     console.log('Leave Types Response:', this.fetchFilter);
+//     this.getLeaveData.leaveType = this.fetchFilter
+//     console.log('sending item:',this.getLeaveData)
+//     this.getAllLeaves()
+//   }
+
+
+
+
+//   if (authService.isAuthenticated()) {
+//     return true ;
+//   } else {
+
+//     authService.createNotification('top', 'error', 'Session Expired', 'Please log in again.');
+
+//     router.navigate(['signIn']);
+//   return false }
+// };
+
+
+ // isTokenExpired(): boolean {
+  //   const expiry = Number(localStorage.getItem('tokenExpiry'));
+  //   return !expiry || Date.now() > expiry;
+  // }
+
+  // logoutAndRedirect(): void {
+  //   localStorage.removeItem('token');
+  //   localStorage.removeItem('tokenExpiry');
+  //   this.createNotification('top', 'error', 'Session Expired', 'Please log in again.');
+  // }
+
+   // const expiryTime = Date.now() + 60000;
+          // localStorage.setItem('tokenExpiry', expiryTime.toString());
+          // const myToken = localStorage.getItem('token')
+          // console.log('my friend::', myToken)
+
+
+
+
+
+          // import { CommonModule } from '@angular/common';
+          // import { Component, signal, computed  } from '@angular/core';
+          // import { FormsModule, NgForm } from '@angular/forms';
+          // import { Router } from '@angular/router';
+          // import { NzNotificationService } from 'ng-zorro-antd/notification';
+          // import { LoginModel } from '../models/login-model';
+          // import { AuthenticationServiceService } from '../services/authentication-service.service';
+          // import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+          
+          
+          // @Component({
+          //   selector: 'app-sign-in',
+          //   imports: [CommonModule, FormsModule, MatProgressSpinnerModule],
+          //   templateUrl: './sign-in.component.html',
+          //   styleUrl: './sign-in.component.scss'
+          // })
+          // export class SignInComponent {
+          //   isLoggedIn() {
+          //     throw new Error('Method not implemented.');
+          //   }
+          
+          //   email = signal('');
+          //   password = signal('');
+          
+            
+          //   isLoading = signal(false);
+          //   successMessage = signal('');
+          //   errorMessage = signal(''); 
+          
+          
+          //   constructor(private router:Router,private authService:AuthenticationServiceService, private notification:NzNotificationService) {}  
+          
+          
+          
+          //    createNotification(position: 'top', type: 'success'| 'info'| 'warning'| 'error', title: string, message: string ){
+          //    this.notification.create(type, title, message, {nzPlacement: position, nzDuration: 3000});
+          //  }
+          
+              
+          //     isValidEmail = computed(() =>
+          //     /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(this.email())
+          //     );
+          
+          //     isValidPassword = computed(() => this.password().length >= 6);
+          //     isFormValid = computed(() => this.isValidEmail() && this.isValidPassword());
+          
+             
+          
+          //     updateEmail(event: Event) {
+          //       const input = event.target as HTMLInputElement;
+          //       this.email.set(input.value);
+          //     }
+          
+          //     updatePassword(event: Event) {
+          //       const input = event.target as HTMLInputElement;
+          //       this.password.set(input.value);
+          //     }
+          
+            
+          
+              
+          
+          //     submitForm() {
+          //       if (!this.isFormValid()) {
+          //         this.errorMessage.set('Please enter a valid email and password.');
+          //         return;
+          //       }
+          
+          //       this.isLoading.set(true);
+          //       this.errorMessage.set('');
+          //       this.successMessage.set('');
+          
+          //       const payload = {
+          //         email: this.email(),
+          //         password: this.password(),
+          //       };
+          
+          //       this.authService.login( payload).subscribe({
+          //         next:(response)=>{
+          //          console.log('success',response.token)
+          //          localStorage.setItem('token', response.token)
+          //         // localStorage.setItem('isUserLogin', 'true') 
+                   
+                   
+             
+          //         this.successMessage.set('Login successful!');
+          //         this.createNotification('top', "success", "Login Successful!!", "Welcome Back!");
+          //         this.isLoading.set(false);
+          //         this.email.set('');
+          //         this.password.set('');
+                    
+          //          if(response.isFirstLogin == true ){
+          //           this.router.navigate(['dashboard'])
+          //         }else{
+          //           this.router.navigate(['dashboard'])
+          //         }
+                  
+          //         },
+          //         error: (err) => {
+          //           this.errorMessage.set('Please check your network <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; and try again.');
+          //           this.isLoading.set(false);
+          //         },
+          //        });
+          
+          //     } 
+          
+          //   }
+          
+          
+          
+          //signal
+          // count = signal(0);
+          // updates = signal(0)
+      
+          // Counts = computed(() => this.updates() + 2);
+          // doubleCount = computed(() => this.count() * 2);
+        
+          // increment() {
+          //   this.count.update(c => c + 1);
+          // }
+      
+          // decrement() {
+          //   this.count.update(c => c - 1);
+          // }
+
+          // effect(() => {
+          //   console.log('Count is now', this.count());
+          // });
+
+          //  <p class="mt-4">Count: {{ count() }}</p>
+          // <p>Double: {{ doubleCount() }}</p>
+          // <button (click)="increment()" class="bg-green-500 rounded-sm h-8 w-20 text-white">Increment</button>&nbsp;
+          // <button (click)="decrement()" class="bg-purple-500 rounded-sm h-8 w-20 text-white">Decrement</button>
+           
+          
+
+          //decideOnLeave
+          // markPending(id: string) {
+          //   const payload: decideLeaveModel = {
+          //     leaveId: id,
+          //     status: 'PENDING',
+          //     comment: ''
+          //   };
+          
+          //   this.leaveService.decideOnLeave(payload).subscribe({
+          //     next: (response) => {
+          //       console.log('Marked pending:', response);
+          //       this.getAllLeaves();
+          //     },
+          //     error: (error) => {
+          //       console.error('Pending error:', error);
+          //     }
+          //   });
+          // }
+
+
+
+           // tempDepartment: string = 'All';
+    // tempSearch: string = '';
+
+
+    // applyFilters() {
+    //   if (this.tempDepartment === 'All') {
+    //     delete this.employeeData.department;
+    //   } else {
+    //     this.employeeData.department = this.tempDepartment;
+    //   }
+    
+    //   const trimmedSearch = this.tempSearch.trim();
+    //   this.employeeData.search = trimmedSearch ? trimmedSearch : undefined;
+    //   this.page = 1;
+    //   this.closeFilterModal();
+    //   this.getEmployees();
+    
+    //   console.log('Filters applied:', this.employeeData);
+    // }
+       
+    //   openFilterModal() {
+    //     this.isFilterModalVisible = true;
+    //   }
+      
+    //   closeFilterModal() {
+    //     this.isFilterModalVisible = false;
+    //   }
+          
+          
+          

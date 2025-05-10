@@ -1,0 +1,154 @@
+<div class="mt-10 lg:mx-20 overflow-x-hidden text-[#353535]">
+    <div class="text-[11px] text-[#828282]">
+       DASHBOARD/
+      <span class="text-[11px] text-black font-bold">
+          TRANSACTIONS
+      </span>
+      </div>
+  
+      <div class="text-[25px] font-bold mt-6">
+          Transactions
+        </div>
+  
+                        <!-- Transaction and search bar section -->
+        <div class="mt-5 bg-white">
+        <div class="flex items-center justify-between mx-5">
+          <div class="">
+             <p class="text-[18px] font-bold">Transactions</p> 
+              <small class="text-[#828282] relative top-[-7px]">View all recent transaction</small>
+          </div>
+  
+          <div class="flex gap-2">
+              <input 
+              type="text"
+              [(ngModel)]="searchQuery" 
+              (ngModelChange)="searchQuery$.next($event)" [(ngModel)]="searchQuery"
+              placeholder="Search by name" 
+              class="bg-[#EBEBEB] text-[#828282] border rounded-lg h-[33px] w-[271px] px-3 text-[13px] "
+               
+              />
+                                <!-- Export button      -->
+              <button class="bg-[#4393FF30] h-[33px] w-[113px] text-[13px] rounded-lg border-2 border-[#4393FF] hover:bg-[#7fb1e3]" (click)="exportTableToCSV()">
+                Export Data
+                <span class="export__icon">icon</span>
+              </button>
+
+                                    <!-- filter modal button -->
+              <button (click)="openFilterModal()"  class="bg-[#4393FF30] h-[33px] w-[79px] text-[13px] rounded-lg border-2 border-[#4393FF] hover:bg-[#7fb1e3]">
+                Filter
+                <span class="filter__icon">icon</span>
+              </button> 
+            
+              <nz-modal [(nzVisible)]="isFilterModalVisible" 
+              nzTitle="Filter Leaves" 
+              (nzOnCancel)="closeFilterModal()" 
+              [nzFooter]="modalFooter"
+              nzClassName="custom-modal">
+              <ng-container *nzModalContent>
+                <form>
+                  <div class="filter-container">
+
+                  <nz-form-item class="flex flex-col">
+                    <label for="department" class="text-white">Department</label>
+                    <select
+                      id="department"
+                      [(ngModel)]="tempDepartment"
+                      name="department"
+                      class="py-2 border rounded-lg"
+                    >
+                      <option value="All">All Departments</option>
+                      <option *ngFor="let dept of DepartmentData" [value]="dept.name">
+                        {{ dept.name }}
+                      </option>
+                    </select>
+                  </nz-form-item>
+                  
+                   
+                  </div>
+                </form>
+              </ng-container>
+
+                                               <!-- Footer for Buttons   -->
+             <ng-template #modalFooter >
+              <div class="space-x-4 mx-4">
+              <button nz-button (click)="closeFilterModal()" class="text-black border border-blue-900 bg-white py-1 px-4">Cancel</button>
+               <button nz-button nzType="primary" (click)="applyFilters()" class="text-white border border-blue-900 bg-blue-500 py-1 px-4">Ok</button> 
+              </div>
+            </ng-template> 
+            
+          </nz-modal>   
+             
+              
+          </div>
+        </div>
+    </div>
+  
+                         <!-- Table section -->
+        <!-- <div style="max-height: 600px; overflow-y: auto;"> -->
+        <div class="mb-10">
+        <div class="overflow-x-auto">
+          <table class="min-w-full table-auto text-[#353535]" id="Data">
+            <thead class="h-[42px] bg-gray-100 text-left">
+              <tr>
+                <th class="px-2 lg:px-5">Employee ID</th>
+                <th class="px-2 lg:px-0">Full Name</th>
+                <th class="px-2 lg:px-0">Employment type</th>
+                <th class="px-2 lg:px-4">Gender</th>
+                <th class="px-2 lg:px-4">Department</th>
+                <th class="px-2 lg:px-4">Job Title</th>
+                <th class="px-2 lg:px-0">Role</th>
+                <th class="px-2 lg:px-4">Status</th>
+                <th class="px-2 lg:px-4">Birthday</th>
+                <th class="px-2 lg:px-0">Leave Balance</th>
+                <th class="px-2 lg:px-0">Action</th>
+              </tr>
+            </thead>
+            <tbody class="bg-white">
+              <tr class="border-b border-gray-200" *ngFor="let item of Data">
+                <td class="px-2 lg:px-5">#{{ item.employmentDetails.staffId }}</td>
+                <td class="px-2 lg:px-0">{{ item.personalDetails.firstName }} {{ item.personalDetails.lastName }}</td>
+                <td class="px-2 lg:px-0">{{ item.employmentDetails.employmentType }}</td>
+                <td class="px-2 lg:px-4">{{ item.personalDetails.gender }}</td>
+                <td class="px-2 lg:px-4">{{ item.department?.name }}</td>
+                <td class="px-2 lg:px-4">{{ item.employmentDetails.jobTitle }}</td>
+                <td class="px-2 lg:px-0">{{ item.role.name }}</td>
+
+                <td class="px-2 lg:px-2 text-sm font-medium w-32 h-10 ">
+                  <div
+                    class="rounded-sm w-fit px-3 text-center flex items-center justify-center text-xs"
+                    [ngClass]="{
+                      'bg-green-200 text-green-800': item.employmentDetails?.employmentStatus === 'Onduty',
+                      'bg-red-200 text-red-800': item.employmentDetails?.employmentStatus === 'Inactive',
+                      'bg-yellow-200 text-yellow-800': item.employmentDetails?.employmentStatus === 'Onleave'
+                    }"
+                  >
+                    {{ item.employmentDetails?.employmentStatus }}
+                  </div>
+                </td>
+                
+                <td class="px-2 lg:px-4">{{ item.personalDetails.birthday }}</td>
+                <td class="px-2 lg:px-0">{{ item.leaveBalance }}</td>
+
+                <td class="px-2 lg:px-0 ">
+                    <a [routerLink]="['/EmployeeViewComponent', item._id]" class="relative right-4 border rounded-2xl text-blue-600 hover:bg-blue-200 flex items-center justify-center space-x-1">
+                      <span class="text-lg">View</span><span class="material-icons text-lg">visibility</span>
+                    </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          </div>
+        </div>
+      </div>
+    <!-- </div> -->
+           <div *ngIf="Data.length === 0">No data found</div>
+          <!--<div *ngIf="Data.length > 0">Data loaded successfully</div> -->
+        
+  
+  
+  
+  <!-- , let data of filteredData() -->
+  
+  <!-- <div class="flex text-blue-800 border h-6 w-20 radius-lg">
+    <span class="text-lg mx-4">View</span><i class="material-icons">visibility</i>
+  </div> -->

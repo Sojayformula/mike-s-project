@@ -104,7 +104,7 @@
           nzTitle="Filter Leaves" 
           (nzOnCancel)="closeFilterModal()" 
           [nzFooter]="modalFooter"
-          nzClassName="custom-modal">
+          >
           <ng-container *nzModalContent>
             <form>
               <div class="filter-container">
@@ -142,8 +142,9 @@
            <button nz-button nzType="primary" (click)="applyFilters()">Apply Filter</button> 
         </ng-template>
       </nz-modal>   
-              
-
+           
+      <!-- {{item.leaveType.name}} -->
+      <!-- {{item.appliedBy.personalDetails.firstName || 'N/A' }}  {{ item.appliedBy.personalDetails.lastName || 'N/A' }} -->
     <!-- *ngIf="apiData.length"
      {{item.appliedBy.personalDetails.firstName + ' ' + item.appliedBy.personalDetails.lastName}}
       -->
@@ -166,14 +167,14 @@
           </thead>
           <tbody class="bg-white">
             <tr class="border-b border-gray-200" *ngFor=" let item of apiData ">
-              <td class="px-2 lg:px-5">{{ item.appliedBy.personalDetails.firstName }} {{ item.appliedBy.personalDetails.lastName }}</td>
-              <td class="px-2 lg:px-0">{{item.appliedBy.department.name || 'N/A'}}</td>
+              <td class="px-2 lg:px-5">{{item?.appliedBy.personalDetails.firstName || 'N/A'}}  {{ item.appliedBy.personalDetails?.lastName || 'N/A'}}</td>
+               <td class="px-2 lg:px-0">{{item.appliedBy.department.name || 'N/A'}}</td>
               <td class="px-2 lg:px-0">{{item.createdAt | date:'dd-MM-yyyy'}}</td>
-              <td class="px-2 lg:px-0">{{item.leaveType.name}}</td>
+              <td class="px-2 lg:px-0"> {{item.leaveType?.name}}</td>
               <td class="px-2 lg:px-0">{{item.startDate | date:'dd-MM-yyyy'}}</td>
               <td class="px-2 lg:px-0">{{item.endDate | date:'dd-MM-yyyy'}}</td>
               <td class="px-2 lg:px-0">{{item.totalDays}}</td>
-              <td class="px-2 lg:px-0">{{item.decidedBy || 'N/A'}}</td>
+              <td class="px-2 lg:px-0">{{item.decidedBy}}</td>
               <td>
                 <div [ngStyle]="{'background-color':item.leaveStatus === 'APPROVED' ? '#E9FFEF' :
               item.leaveStatus === 'PENDING' ? 'rgba(178, 113, 23, 0.06)' :
@@ -213,25 +214,38 @@
             </tr>
           </tbody>
         </table>
-      </div>
-      <div>
-     
-      
 
-         <!-- Handle empty data case -->
+
+
+          <!-- Handle empty data case -->
      <ng-template #noData>
       <tr>
         <td colspan="3" style="text-align: center;">No data found</td>
       </tr>
     </ng-template>
-    
-    
+
+          <!-- PAGINATION -->
+          <div class="flex justify-between items-center px-2 pt-[10px]">
+          <div class="pagination-info w-[80%] text-[12px] md:text-[14px] md:w-[60%] lg:w-[40%]">
+              Showing {{ getStartItem() }} to {{ getEndItem() }} of {{ totalItems }} items
+          </div>
+          <div class="w-[90%] md:w-[70%] lg:w-[30%] text-[12px] md:text-[16px]">
+          <nz-pagination
+          [nzPageIndex]="currentPage"
+          [nzTotal]="100"
+          (nzPageIndexChange)="onPageChange($event)">
+          </nz-pagination>
+      </div>
+  </div> 
 
   
-    <p class="mt-4">Count: {{ count() }}</p>
-    <p>Double: {{ doubleCount() }}</p>
-    <button (click)="increment()" class="bg-green-500 rounded-sm h-8 w-20 text-white">Increment</button>&nbsp;
-    <button (click)="decrement()" class="bg-purple-500 rounded-sm h-8 w-20 text-white">Decrement</button>
+      </div>
+      <div>
+     
+      
+
+       
+    
     
  
 

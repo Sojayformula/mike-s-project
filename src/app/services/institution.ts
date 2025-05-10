@@ -17,7 +17,7 @@ export class LeaveManagementService {
   constructor(private http:HttpClient) { }   //leaveTypeData: leavetypeModel
 
 
-  fetchAllLeaves( item: getLeaveModel):Observable<any>{
+  fetchAllLeaves(item: getLeaveModel):Observable<any>{
     console.log("give me leaves",item)
     let url = `${environment.baseUrl}/leave/list-all-leaves`     
 
@@ -88,9 +88,9 @@ getLeaveType(leaveTypeData: leavetypeModel): Observable<any> {
   return this.http.get<departmentModel>(url)
 }
 
-// isAuthenticated(): boolean {
-//   const token = localStorage.getItem('token');
-//   return !!token;
-// }
+decideOnLeave(payload: decideLeaveModel) {
+  return this.http.post(environment.baseUrl + '/leave/decide-on-leave', payload);
+}
+
 
 }

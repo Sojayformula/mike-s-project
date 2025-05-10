@@ -1,5 +1,5 @@
 
-<!-- <app-lay-out></app-lay-out> -->
+<div *ngIf="authService.isLoggedIn(); else notLoggedIn">
 <div class="mt-10 lg:mx-20 overflow-x-hidden">
   <div class="">
       <div>
@@ -204,7 +204,10 @@
     </div>
   </div>
   </div>
-
+</div>
+<ng-template #notLoggedIn>
+  <p>You are not logged in. Please <a routerLink="/signIn">log in</a>.</p>
+</ng-template>
 
 
 

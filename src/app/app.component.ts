@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { NgModel } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { AuthService } from './routeguardSer/auth-service.guard';
+// import { AuthService } from './routeguardSer/auth-service.guard';
 import { OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -14,6 +14,41 @@ import { Router } from '@angular/router';
 })
 export class AppComponent{
   title = 'dashboard';
+
+
+
+ 
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
