@@ -245,8 +245,9 @@ throw new Error('Method not implemented.');
 
   toggleSelect(item:string){
     this.getLeaveData.leaveStatus = item === 'ALL' ? '' :item;
-    this.getAllLeaves();
     this.selectedChoice = item;
+    this.getAllLeaves();
+   
     console.log("toggle some",item);
   }
   
@@ -261,7 +262,7 @@ throw new Error('Method not implemented.');
     
 
 
-               //Filter by department//
+               //Filter by department //
   fetchDepartments() {
     console.log('display',this.departmentData)
     this.leaveMgtService.listDepartment(this.departmentData).subscribe({

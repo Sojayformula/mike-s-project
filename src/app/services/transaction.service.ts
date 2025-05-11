@@ -12,7 +12,8 @@ export class TransactionService {
 
   constructor(private http: HttpClient) { }
 
-  fetchEmployees(item: getEmployeeModel): Observable<any>{ 
+  fetchEmployees(item: getEmployeeModel): Observable<any>{
+ 
     console.log("give me leaves",item)
     let url = `${environment.baseUrl}/employees`     
 
@@ -38,6 +39,11 @@ export class TransactionService {
 
     if (item.department) {
       url += `${isFirstParam ? '?' : '&'}department=${item.department}`;
+      isFirstParam = false;
+    }
+
+    if (item.employeeStatus) {
+      url += `${isFirstParam ? '?' : '&'}employeeStatus=${item.employeeStatus}`;
       isFirstParam = false;
     }
   

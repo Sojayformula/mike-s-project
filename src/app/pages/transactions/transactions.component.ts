@@ -9,13 +9,15 @@ import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { NzFormModule } from 'ng-zorro-antd/form'; 
 import { NzModalModule } from 'ng-zorro-antd/modal';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 
 
 
 
 @Component({
   selector: 'app-transactions',
-  imports: [CommonModule, FormsModule, RouterModule, NzFormModule, NzModalModule],
+  imports: [CommonModule, FormsModule, RouterModule, NzFormModule, NzModalModule, MatProgressSpinner, NzPaginationModule],
   templateUrl: './transactions.component.html',
   styleUrl: './transactions.component.scss'
 })
@@ -30,7 +32,9 @@ export class TransactionsComponent implements OnInit, OnDestroy{
   page = 1;
   pageSize = 10;
   totalItems: number = 0; 
+  currentPage = 1
   searchQuery: string = '';
+  isLoading = false
 
   searchQuery$ = new Subject<string>();
   isFilterModalVisible = false;
@@ -56,6 +60,7 @@ export class TransactionsComponent implements OnInit, OnDestroy{
 
 
   getEmployees(){
+    this.isLoading =true
     this.employeeData.pageSize = this.pageSize
     this.employeeData.page = this.page 
     this.employeeData.search = this.searchQuery
@@ -65,13 +70,23 @@ export class TransactionsComponent implements OnInit, OnDestroy{
      this.transactionSer.fetchEmployees(this.employeeData).subscribe({
       next: (res) =>{
         this.Data = res.response?.employees || [];
-        this.totalItems = res.totalCount || 0;
+        //this.totalItems = res.totalCount || 0;
+
+         // Set total items for pagination - make sure totalCount exists in API response
+      // if (res && res.totalCount !== undefined && res.totalCount !== null) {
+      //   this.totalItems = res.totalCount;
+      // } else {
+      //   this.totalItems = this.Data.length; 
+      // }
+
         console.log('Data length:', this.Data.length);
         console.log('APIData', res.response.employeeDeta);
+        this.isLoading = false
       },
 
       error: (error) => {
         console.error('Error fetching leaves:', error);
+        this.isLoading = false
       },
       complete:()=>{
 
@@ -79,7 +94,7 @@ export class TransactionsComponent implements OnInit, OnDestroy{
     });
   }
 
-
+          //  Search logic //
   search(searchTerm: string){
 
     this.page =1;
@@ -96,7 +111,7 @@ export class TransactionsComponent implements OnInit, OnDestroy{
 
   ngOnDestroy(): void {
     this.searchQuery$.complete();
-   
+    
   }
 
 
@@ -116,7 +131,6 @@ export class TransactionsComponent implements OnInit, OnDestroy{
     }
 
     getEmployees1() {
-      
       console.log('Dept API data', this.DepartmentData)
       this.transactionSer.fetchDepartment(this.departmentData).subscribe({
         next: (res) => {
@@ -129,20 +143,6 @@ export class TransactionsComponent implements OnInit, OnDestroy{
         }
       });
     }
-
-    deptType(event: Event) {
-      const selectedValue = (event.target as HTMLSelectElement).value;
-      console.log('Selected Department:', selectedValue);
-    
-      if (selectedValue === 'All') {
-        delete this.employeeData.department; 
-      } else {
-        this.employeeData.department = selectedValue;
-      }
-
-    }
-
-    
 
 
     applyFilters() {
@@ -158,6 +158,7 @@ export class TransactionsComponent implements OnInit, OnDestroy{
     
       console.log('Filters applied:', this.employeeData);
     }
+
        
       openFilterModal() {
         this.isFilterModalVisible = true;
@@ -167,12 +168,40 @@ export class TransactionsComponent implements OnInit, OnDestroy{
         this.isFilterModalVisible = false;
       }
 
+        // Function to handle page change
+        onPageCange(page: number){
+        this.page = page
+        this.getEmployees();
+        console.log("leave page changed",this.page)
+        }
 
-     
-       // onMaritalStatusChange(status: string) {
-      //   this.filterModel.maritalStatus = status;
-      //   this.getEmployees();
+        onPageSizeChange(){
+          this.page = 1;
+          this.getEmployees(); 
+        }
+      
    
+        // Calculate displayed
+        getStartItem(): number {
+          return (this.page - 1) * this.pageSize + 1;
+        }
+        
+        getEndItem(): number {
+          return Math.min(this.page * this.pageSize, this.totalItems);
+        }
+
+
+                // Function to Toggle ALL APPROVED PENDING DECLINED
+  selectedChoice:string = 'ALL';
+
+  toggleSelect(item:string){
+    this.employeeData.employeeStatus = item === 'ALL' ? '' : item;
+    this.selectedChoice = item;
+    this.getEmployees();
+   
+    console.log("toggle some",item);
+  }
+  
     }
 
 
@@ -185,116 +214,24 @@ export class TransactionsComponent implements OnInit, OnDestroy{
 
 
 
+    // onPageSizeChange(event: Event): void {
+        //   const selectElement = event.target as HTMLSelectElement;  
+        //   this.pageSize = +selectElement.value; 
+        //   this.page = 1;
+        //   this.getEmployees();
+        // }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-// console.log('Fetching employees data:', this.employeeData);
-
-  // search(searchTerm: string): void {
-  //   // Replace with actual search logic
-  //   console.log('Performing search for:', searchTerm);
-  // }
-
-
-   // filterByMaritalStatus(event: Event) {
-      //   const selectedValue = (event.target as HTMLSelectElement).value;
-      //   this.employeeDeta.maritalStatus = selectedValue;
-      //   this.getEmployees();
-      // }
-
-      // onDepartmentChange(event: Event) {
-      //   const selectedValue = (event.target as HTMLSelectElement).value;
-      //   this.filterModel.department = selectedValue === 'All' ? '' : selectedValue;
-      //   this.getEmployees();
-      // }
-
-
-
-           
-// fetchMaritalStatus() {
-//   this.transactionSer.fetchEmployees(this.filterTypeData).subscribe({
-//     next: (res) => {
-//       console.log('Fetched marital status Types:', res.response);
-//       this.filterTypeOptions = res.response?.maritalStatus || [];
-//     },
-//     error: (err) => {
-//       console.error('Error fetching marital statuses:', err);
-//     }
-//   });
-// }
-   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// // this.mappedData = this.Data.map(item => {
-// //   return {
-// //     Sender: item.Sender,
-// //     Amount: item.Amount,
-// //     DLCode: item.DLCode, 
-// //     ProviderID: item.ProviderID, 
-// //     Source: item.Source, 
-// //     Sourceacc: item.Sourceacc,
-// //     Recipient: item.Recipient, 
-// //     Destination: item.Destination, 
-// //     Destacc: item.Destacc, 
-// //     DateTime: item.DateTime, 
-// //     status: item.status, 
-// //   }
-// // });
-
-// // {Sender: 'Sowah', Amount: '$80', DLCode: '658HFUU', ProviderID:'658HFUU', Source: 'XCEL', Sourceacc: '7585649378', Recipient:'Name Surname', Destination: 'FCMB', Destacc: '7585649378', DateTime:'10/13/24, 09:00', status: 'Verified'},
-// // {Sender: 'Sowah', Amount: '$80', DLCode: '658HFUU', ProviderID:'658HFUU', Source: 'Ecobank', Sourceacc: '7585649378', Recipient:'Name Surname', Destination: 'Access Bank', Destacc: '7585649378', DateTime:'10/13/24, 09:00', status: 'Verified'},
-// // {Sender: 'Kojo', Amount: '$50', DLCode: '658HFUU', ProviderID:'658HFUU', Source: 'GT', Sourceacc: '7585649378', Recipient:'Name Surname', Destination: 'Polaris', Destacc: '7585649378', DateTime:'10/13/24, 09:00', status: 'Verified'},
-// // {Sender: 'Kojo', Amount: '$20', DLCode: '658HFUU', ProviderID:'658HFUU', Source: 'Stanbic IBTC', Sourceacc: '7585649378', Recipient:'Name Surname', Destination: 'Sterling', Destacc: '7585649378', DateTime:'10/13/24, 09:00', status: 'Verified'},
-// // {Sender: 'Jane', Amount: '$10', DLCode: '658HFUU', ProviderID:'658HFUU', Source: 'UBA', Sourceacc: '7585649378', Recipient:'Name Surname', Destination: 'UBA', Destacc: '7585649378', DateTime:'10/13/24, 09:00', status: 'Unverified'},
-// // {Sender: 'Jane', Amount: '$90', DLCode: '658HFUU', ProviderID:'658HFUU', Source: 'Fidelity', Sourceacc: '7585649378', Recipient:'Name Surname', Destination: 'Ecobank', Destacc: '7585649378', DateTime:'10/13/24, 09:00', status: 'Unverified'},
-
-
- // filteredData() {
-    //   if (!this.searchTerm) {
-    //     return this.Data;
-    //   }
-    //   return this.Data.filter(Data =>
-    //     Data.Sender.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-    //     Data.Source.toLowerCase().includes(this.searchTerm.toLowerCase())
-    //   );
-    // }
-
-
-
-    // search() {
-    //   this.searchSubject.next(this.searchQuery)
-    //   this.searchSubject.pipe(
-    //     debounceTime(300),             // Wait 300ms after the last event
-    //     distinctUntilChanged()         // Only emit if value is different
-    //   ).subscribe(searchText => {
-    //     this.employeeDeta.search = searchText;
-    //     this.getEmployees();
-    //   });
-    // }
+        
+    // deptType(event: Event) {
+    //   const selectedValue = (event.target as HTMLSelectElement).value;
+    //   console.log('Selected Department:', selectedValue);
     
+    //   if (selectedValue === 'All') {
+    //     delete this.employeeData.department; 
+    //   } else {
+    //     this.employeeData.department = selectedValue;
+    //   }
+
+    // }
+
+    //toggleState:boolean = false;

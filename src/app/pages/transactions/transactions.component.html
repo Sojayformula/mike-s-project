@@ -1,23 +1,56 @@
-<div class="mt-10 lg:mx-20 overflow-x-hidden text-[#353535]">
+<div class="mt-4 lg:mx-20 overflow-x-hidden text-[#353535] ">
     <div class="text-[11px] text-[#828282]">
        DASHBOARD/
       <span class="text-[11px] text-black font-bold">
-          TRANSACTIONS
+          EMPLOYEES
       </span>
       </div>
-  
+
       <div class="text-[25px] font-bold mt-6">
-          Transactions
+          Employees
         </div>
+
+
+        <div class="mt-10">
+          <div class="bg-gray-300 py-1 px-4 w-[16rem] flex rounded-xl">
+          <button (click)="toggleSelect('ALL')"
+          class="h-[36px] px-5 rounded-[10px] text-[#777777] cursor-pointer"
+          [ngClass]="{'active-button': selectedChoice === 'ALL'}"
+          [ngClass]="{
+            'text-white bg-gradient-to-b from-[#122C69] to-[#1D0434]': selectedChoice === 'ALL',
+            'text-[#838383]': selectedChoice !== 'ALL'
+          }"
+          >All</button>
   
-                        <!-- Transaction and search bar section -->
+            <button (click)="toggleSelect('Onleave')"
+            class="h-[36px] px-5 rounded-[10px] text-[#777777] cursor-pointer"
+          [ngClass]="{'active-button': selectedChoice === 'Onleave'}"
+          [ngClass]="{
+            'text-white bg-gradient-to-b from-[#122C69] to-[#1D0434]': selectedChoice === 'Onleave',
+            'text-[#838383]': selectedChoice !== 'Onleave'
+          }"
+            >Onleave</button>
+  
+            <button (click)="toggleSelect('Onduty')"
+            class="h-[36px] px-5 rounded-[10px] text-[#777777] cursor-pointer"
+            [ngClass]="{'active-button': selectedChoice === 'Onduty'}"
+            [ngClass]="{
+              'text-white bg-gradient-to-b from-[#122C69] to-[#1D0434]': selectedChoice === 'Onduty',
+              'text-[#838383]': selectedChoice !== 'Onduty'
+            }" 
+            >Onduty</button>
+          </div>
+
+  
+                      
         <div class="mt-5 bg-white">
         <div class="flex items-center justify-between mx-5">
           <div class="">
-             <p class="text-[18px] font-bold">Transactions</p> 
-              <small class="text-[#828282] relative top-[-7px]">View all recent transaction</small>
+             <p class="text-[18px] font-bold">Employees</p> 
+              <small class="text-[#828282] relative top-[-7px]">View all recent employees</small>
           </div>
   
+                  <!-- Search bar -->
           <div class="flex gap-2">
               <input 
               type="text"
@@ -39,44 +72,54 @@
                 <span class="filter__icon">icon</span>
               </button> 
             
-              <nz-modal [(nzVisible)]="isFilterModalVisible" 
-              nzTitle="Filter Leaves" 
-              (nzOnCancel)="closeFilterModal()" 
-              [nzFooter]="modalFooter"
-              nzClassName="custom-modal">
-              <ng-container *nzModalContent>
-                <form>
-                  <div class="filter-container">
+             
 
-                  <nz-form-item class="flex flex-col">
-                    <label for="department" class="text-white">Department</label>
-                    <select
-                      id="department"
-                      [(ngModel)]="tempDepartment"
-                      name="department"
-                      class="py-2 border rounded-lg"
-                    >
-                      <option value="All">All Departments</option>
-                      <option *ngFor="let dept of DepartmentData" [value]="dept.name">
-                        {{ dept.name }}
-                      </option>
-                    </select>
-                  </nz-form-item>
-                  
-                   
-                  </div>
-                </form>
-              </ng-container>
 
-                                               <!-- Footer for Buttons   -->
-             <ng-template #modalFooter >
-              <div class="space-x-4 mx-4">
-              <button nz-button (click)="closeFilterModal()" class="text-black border border-blue-900 bg-white py-1 px-4">Cancel</button>
-               <button nz-button nzType="primary" (click)="applyFilters()" class="text-white border border-blue-900 bg-blue-500 py-1 px-4">Ok</button> 
-              </div>
-            </ng-template> 
-            
-          </nz-modal>   
+
+      <nz-modal
+        [(nzVisible)]="isFilterModalVisible"
+        [nzTitle]="modalTitleTpl"
+        (nzOnCancel)="closeFilterModal()"
+        [nzFooter]="modalFooter"
+        nzClassName="custom-modal"
+      >
+    <ng-template #modalTitleTpl>
+      <div class="flex items-center gap-2">
+        <div class="rounded-full bg-blue-900 text-white text-2xl px-2 py-1">///</div>
+        <span class="text-lg font-semibold">Filter Department</span>
+      </div>
+    </ng-template>
+
+    <ng-container *nzModalContent>
+      <form>
+        <div class="filter-container">
+          <nz-form-item class="flex flex-col">
+            <label for="department" class="text-white">Department</label>
+            <select
+              id="department"
+              [(ngModel)]="tempDepartment"
+              name="department"
+              class="py-2 border rounded-lg"
+            >
+              <option value="All">All Departments</option>
+              <option *ngFor="let dept of DepartmentData" [value]="dept.name">
+                {{ dept.name }}
+              </option>
+            </select>
+          </nz-form-item>
+          </div>
+      </form>
+    </ng-container>
+
+      <!-- Footer for Buttons   -->
+      <ng-template #modalFooter >
+      <div class="space-x-4 mx-4">
+      <button nz-button (click)="closeFilterModal()" class="text-black border border-blue-900 bg-white py-1 px-4">Cancel</button>
+        <button nz-button nzType="primary" (click)="applyFilters()" class="text-white border border-blue-900 bg-blue-500 py-1 px-4">Ok</button> 
+      </div>
+    </ng-template> 
+</nz-modal>
+
              
               
           </div>
@@ -86,7 +129,7 @@
                          <!-- Table section -->
         <!-- <div style="max-height: 600px; overflow-y: auto;"> -->
         <div class="mb-10">
-        <div class="overflow-x-auto">
+        <div class="overflow-hidden">
           <table class="min-w-full table-auto text-[#353535]" id="Data">
             <thead class="h-[42px] bg-gray-100 text-left">
               <tr>
@@ -137,18 +180,45 @@
               </tr>
             </tbody>
           </table>
+
+                            <!-- PAGINATION -->
+          <div class="flex justify-between items-center px-2 pt-[10px]">
+            <div class="pagination-info w-[80%] text-[12px] md:text-[14px] md:w-[60%] lg:w-[40%]">
+                Showing {{ getStartItem() }} to {{ getEndItem() }} of {{ totalItems }} items &nbsp;
+                <select [(ngModel)]="pageSize" (change)="onPageSizeChange()">
+                  <option [value]="5">5</option>
+                  <option [value]="10">10</option>
+                  <option [value]="20">15</option>
+                  <option [value]="20">20</option>
+                  <option [value]="30">30</option>
+                </select>
+                
+            </div>
+            <div class="w-[90%] md:w-[70%] lg:w-[30%] text-[12px] md:text-[16px]">
+                <nz-pagination
+                [nzPageIndex]="currentPage"
+                [nzTotal]="100"
+                (nzPageIndexChange)="onPageChange($event)">
+                </nz-pagination>
+              </div>
+          </div> 
+
           </div>
         </div>
       </div>
-    <!-- </div> -->
-           <div *ngIf="Data.length === 0">No data found</div>
-          <!--<div *ngIf="Data.length > 0">Data loaded successfully</div> -->
-        
+    
+
+      <div class="text-red-500 text-lg relative left-5 mx-16 flex justify-center">
+        <ng-container *ngIf="isLoading; else checkData">
+          <mat-spinner [diameter]="50"></mat-spinner>
+        </ng-container>
+      
+        <ng-template  #checkData>
+          <div *ngIf="Data.length === 0">No data found</div>
+          <!-- <div *ngIf="Data.length > 0">Data loaded successfully</div> -->
+        </ng-template>
+      </div>
+     
+       
   
   
-  
-  <!-- , let data of filteredData() -->
-  
-  <!-- <div class="flex text-blue-800 border h-6 w-20 radius-lg">
-    <span class="text-lg mx-4">View</span><i class="material-icons">visibility</i>
-  </div> -->

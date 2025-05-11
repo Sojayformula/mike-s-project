@@ -1186,6 +1186,48 @@ export class AuthenticationServiceService {
     //   closeFilterModal() {
     //     this.isFilterModalVisible = false;
     //   }
+
+
+
+//     <nz-modal [(nzVisible)]="isFilterModalVisible" 
+//     nzTitle="Filter Department" 
+//     (nzOnCancel)="closeFilterModal()" 
+//     [nzFooter]="modalFooter"
+//     nzClassName="custom-modal">
+
+//     <ng-container *nzModalContent>
+//       <form>
+//         <div class="filter-container">
+
+//         <nz-form-item class="flex flex-col">
+//           <label for="department" class="text-white">Department</label>
+//           <select
+//             id="department"
+//             [(ngModel)]="tempDepartment"
+//             name="department"
+//             class="py-2 border rounded-lg"
+//           >
+//             <option value="All">All Departments</option>
+//             <option *ngFor="let dept of DepartmentData" [value]="dept.name">
+//               {{ dept.name }}
+//             </option>
+//           </select>
+//         </nz-form-item>
+        
+         
+//         </div>
+//       </form>
+//     </ng-container>
+
+//                                      <!-- Footer for Buttons   -->
+//    <ng-template #modalFooter >
+//     <div class="space-x-4 mx-4">
+//     <button nz-button (click)="closeFilterModal()" class="text-black border border-blue-900 bg-white py-1 px-4">Cancel</button>
+//      <button nz-button nzType="primary" (click)="applyFilters()" class="text-white border border-blue-900 bg-blue-500 py-1 px-4">Ok</button> 
+//     </div>
+//   </ng-template> 
+  
+// </nz-modal>   
           
           
           
