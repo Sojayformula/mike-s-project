@@ -1230,4 +1230,18 @@ export class AuthenticationServiceService {
 // </nz-modal>   
           
           
-          
+          //this.totalItems = res.totalCount || 0;
+
+         // Set total items for pagination - make sure totalCount exists in API response
+      // if (res && res.totalCount !== undefined && res.totalCount !== null) {
+      //   this.totalItems = res.totalCount;
+      // } else {
+      //   this.totalItems = this.Data.length; 
+      // } 
+
+      //for search
+       // if (!searchTerm || searchTerm.trim() === '') {
+    //   this.employeeData.search = undefined; 
+    // } else {
+    //   this.employeeData.search = searchTerm.trim(); 
+    // }

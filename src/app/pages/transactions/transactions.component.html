@@ -55,10 +55,9 @@
               <input 
               type="text"
               [(ngModel)]="searchQuery" 
-              (ngModelChange)="searchQuery$.next($event)" [(ngModel)]="searchQuery"
+              (ngModelChange)="searchQuery$.next($event)" 
               placeholder="Search by name" 
-              class="bg-[#EBEBEB] text-[#828282] border rounded-lg h-[33px] w-[271px] px-3 text-[13px] "
-               
+              class="bg-[#EBEBEB] text-[#828282] border rounded-lg h-[33px] w-[271px] px-3 text-[13px] " 
               />
                                 <!-- Export button      -->
               <button class="bg-[#4393FF30] h-[33px] w-[113px] text-[13px] rounded-lg border-2 border-[#4393FF] hover:bg-[#7fb1e3]" (click)="exportTableToCSV()">

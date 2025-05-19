@@ -46,9 +46,7 @@ export class TransactionService {
       url += `${isFirstParam ? '?' : '&'}employeeStatus=${item.employeeStatus}`;
       isFirstParam = false;
     }
-  
-    
-    
+ 
     return this.http.get(url)
   }
 

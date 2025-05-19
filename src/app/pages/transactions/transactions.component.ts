@@ -44,20 +44,21 @@ export class TransactionsComponent implements OnInit, OnDestroy{
 
     this.employeeData = new getEmployeeModel()
     this.departmentData = new getDepartmentModel()
-   
 
-    this.searchQuery$.pipe(debounceTime(300)).subscribe((searchTerm: string) => {
-    this.search(searchTerm); 
-  
-      });
+    this.searchQuery$.pipe(debounceTime(500))
+  .subscribe((searchTerm: string) => {
+    this.searchQuery = searchTerm;
+    this.search();
+  });
+
   }
 
 
   ngOnInit(): void {
-    this.getEmployees()
+    this.getEmployees(),
     this.getEmployees1()
   }
-
+  
 
   getEmployees(){
     this.isLoading =true
@@ -69,18 +70,10 @@ export class TransactionsComponent implements OnInit, OnDestroy{
     console.log('Employee model data', this.employeeData)
      this.transactionSer.fetchEmployees(this.employeeData).subscribe({
       next: (res) =>{
-        this.Data = res.response?.employees || [];
-        //this.totalItems = res.totalCount || 0;
-
-         // Set total items for pagination - make sure totalCount exists in API response
-      // if (res && res.totalCount !== undefined && res.totalCount !== null) {
-      //   this.totalItems = res.totalCount;
-      // } else {
-      //   this.totalItems = this.Data.length; 
-      // }
-
+        this.Data = res.response.employees || [];
+        console.log('DataAPI:', res);
         console.log('Data length:', this.Data.length);
-        console.log('APIData', res.response.employeeDeta);
+        console.log('APIData', res.response.employees);
         this.isLoading = false
       },
 
@@ -94,24 +87,15 @@ export class TransactionsComponent implements OnInit, OnDestroy{
     });
   }
 
-          //  Search logic //
-  search(searchTerm: string){
-
-    this.page =1;
-
-    if (!searchTerm || searchTerm.trim() === '') {
-      this.employeeData.search = undefined; 
-    } else {
-      this.employeeData.search = searchTerm.trim(); 
-    }
-    
+          //  Search logic //     
+  search(){
+    this.employeeData.search = this.searchQuery
+    this.page =1; 
     this.getEmployees();
-    console.log('Performing search for:', searchTerm);
   }
 
   ngOnDestroy(): void {
     this.searchQuery$.complete();
-    
   }
 
 
@@ -169,11 +153,13 @@ export class TransactionsComponent implements OnInit, OnDestroy{
       }
 
         // Function to handle page change
-        onPageCange(page: number){
+        onPageChange(page: number){
+          // if (page !== this.page) {
         this.page = page
         this.getEmployees();
         console.log("leave page changed",this.page)
         }
+      
 
         onPageSizeChange(){
           this.page = 1;
@@ -183,7 +169,7 @@ export class TransactionsComponent implements OnInit, OnDestroy{
    
         // Calculate displayed
         getStartItem(): number {
-          return (this.page - 1) * this.pageSize + 1;
+           return (this.page - 1) * this.pageSize + 1;
         }
         
         getEndItem(): number {
